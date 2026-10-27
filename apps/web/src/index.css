@@ -35,6 +35,13 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Hide OS cursor on desktop devices so custom cursor replaces it 1:1 */
+@media (pointer: fine) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
+}
+
 @keyframes marquee {
   0% {
     transform: translateX(0%);
@@ -47,10 +54,7 @@ html {
 .animate-marquee {
   display: inline-flex;
   width: max-content;
-  animation: marquee 28s linear infinite;
+  animation: marquee 26s linear infinite;
 }
 
-.animate-marquee:hover {
-  animation-play-state: paused;
-}
 

@@ -9,17 +9,17 @@ export function CustomCursor() {
   )
 
   useEffect(() => {
-    // Disable on touch devices
     if (isTouch) return
 
     const onMouseMove = (e: MouseEvent) => {
+      // Instant 1:1 hardware coordinate update, no lag
       setPos({ x: e.clientX, y: e.clientY })
       if (!isVisible) setIsVisible(true)
 
       const target = e.target as HTMLElement | null
       if (!target) return
 
-      // Check if target or parent is inside a photo reveal container
+      // Detect hover targets
       if (target.closest('[data-cursor="photo"]')) {
         setCursorType('photo')
       } else if (
@@ -38,7 +38,7 @@ export function CustomCursor() {
     const onMouseLeave = () => setIsVisible(false)
     const onMouseEnter = () => setIsVisible(true)
 
-    window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('mousemove', onMouseMove, { passive: true })
     document.addEventListener('mouseleave', onMouseLeave)
     document.addEventListener('mouseenter', onMouseEnter)
 
@@ -51,32 +51,26 @@ export function CustomCursor() {
 
   if (isTouch || !isVisible) return null
 
-  // Styles based on cursor state
   const isPhoto = cursorType === 'photo'
   const isLink = cursorType === 'link'
 
   return (
     <div
-      className="pointer-events-none fixed top-0 left-0 z-[9999] -translate-x-1/2 -translate-y-1/2 transition-all duration-100 ease-out"
+      className="pointer-events-none fixed top-0 left-0 z-[9999] will-change-transform"
       style={{
         transform: `translate3d(${pos.x}px, ${pos.y}px, 0) translate(-50%, -50%)`,
       }}
     >
+      {/* Expanding indicator ring centered exactly on pointer tip */}
       <div
-        className={`rounded-full transition-all duration-200 ease-out flex items-center justify-center ${
+        className={`rounded-full transition-all duration-150 ease-out flex items-center justify-center ${
           isPhoto
-            ? 'w-28 h-28 border-2 border-black/80 bg-white/10 backdrop-blur-[1px] shadow-lg'
+            ? 'w-24 h-24 border-2 border-black/90 bg-white/5 backdrop-blur-[1px] shadow-xl'
             : isLink
-              ? 'w-12 h-12 bg-black/15 border border-black/40 backdrop-blur-xs scale-100'
-              : 'w-3 h-3 bg-black'
+              ? 'w-11 h-11 bg-black/15 border border-black/50 backdrop-blur-xs scale-100'
+              : 'w-3 h-3 bg-black shadow-xs'
         }`}
-      >
-        {isPhoto && (
-          <span className="font-mono text-[9px] font-bold text-black bg-white/90 px-1.5 py-0.5 rounded shadow-xs tracking-wider uppercase">
-            COLOR
-          </span>
-        )}
-      </div>
+      />
     </div>
   )
 }

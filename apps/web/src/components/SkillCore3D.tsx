@@ -1,5 +1,16 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { Code, Cpu, Layers, Smartphone } from 'lucide-react'
+import { Cpu } from 'lucide-react'
+import { HackerStreamCanvas } from './HackerStreamCanvas'
+import {
+  FlutterIcon,
+  NestIcon,
+  NextIcon,
+  NuxtIcon,
+  PrismaIcon,
+  ReactIcon,
+  ViteIcon,
+  VueIcon,
+} from './icons/TechIcons'
 
 interface SkillNode {
   id: string
@@ -8,18 +19,17 @@ interface SkillNode {
   x: number
   y: number
   z: number
-  accentColor: string
 }
 
 const SKILL_NODES: SkillNode[] = [
-  { id: 'react', label: 'React 19', category: 'Frontend', x: 0, y: -100, z: 20, accentColor: '#38BDF8' },
-  { id: 'next', label: 'Next.js 15', category: 'Fullstack SSR', x: 95, y: -40, z: -30, accentColor: '#000000' },
-  { id: 'vue', label: 'Vue 3', category: 'Frontend UI', x: -95, y: -30, z: 40, accentColor: '#42B883' },
-  { id: 'nuxt', label: 'Nuxt.js', category: 'Universal Vue', x: 80, y: 55, z: 50, accentColor: '#00DC82' },
-  { id: 'vite', label: 'Vite', category: 'Build Tool', x: -80, y: 60, z: -40, accentColor: '#BD34FE' },
-  { id: 'prisma', label: 'Prisma', category: 'ORM & Data', x: 0, y: 105, z: -20, accentColor: '#1D3557' },
-  { id: 'nestjs', label: 'NestJS', category: 'Enterprise Backend', x: 100, y: 20, z: -60, accentColor: '#E0234E' },
-  { id: 'mobile', label: 'Mobile Apps', category: 'Cross-Platform', x: -95, y: 20, z: -70, accentColor: '#F59E0B' },
+  { id: 'react', label: 'React 19', category: 'Frontend Core', x: 0, y: -100, z: 20 },
+  { id: 'next', label: 'Next.js 15', category: 'Fullstack SSR', x: 95, y: -40, z: -30 },
+  { id: 'vue', label: 'Vue 3', category: 'Progressive UI', x: -95, y: -30, z: 40 },
+  { id: 'nuxt', label: 'Nuxt.js', category: 'Universal Vue', x: 80, y: 55, z: 50 },
+  { id: 'vite', label: 'Vite', category: 'Next-gen Bundler', x: -80, y: 60, z: -40 },
+  { id: 'prisma', label: 'Prisma', category: 'Type-safe ORM', x: 0, y: 105, z: -20 },
+  { id: 'nestjs', label: 'NestJS', category: 'Enterprise Backend', x: 100, y: 20, z: -60 },
+  { id: 'mobile', label: 'Flutter / Mobile', category: 'Cross-Platform', x: -95, y: 20, z: -70 },
 ]
 
 export function SkillCore3D() {
@@ -31,7 +41,7 @@ export function SkillCore3D() {
   const [dragStart, setDragStart] = useState({ x: 0, y: 0, rotX: -15, rotY: 25 })
   const autoRotateRef = useRef(true)
 
-  // Gentle idle rotation when not dragging
+  // Smooth continuous idle rotation
   useEffect(() => {
     let animId: number
     const loop = () => {
@@ -76,20 +86,20 @@ export function SkillCore3D() {
   }
 
   return (
-    <div className="relative w-full max-w-[420px] aspect-square flex flex-col items-center justify-center select-none touch-none">
+    <div className="relative w-full max-w-[440px] aspect-square flex flex-col items-center justify-center select-none touch-none">
+      {/* Hacker / Matrix Rain Canvas in borderless circular background */}
+      <HackerStreamCanvas className="w-full h-full" />
+
       {/* 3D Scene Container */}
       <div
         ref={containerRef}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
-        className={`w-full h-full relative cursor-grab active:cursor-grabbing flex items-center justify-center [perspective:900px] ${
+        className={`w-full h-full relative cursor-grab active:cursor-grabbing flex items-center justify-center [perspective:900px] z-10 ${
           isDragging ? 'cursor-grabbing' : ''
         }`}
       >
-        {/* Ambient Halo Behind Core */}
-        <div className="absolute w-56 h-56 rounded-full bg-gradient-to-tr from-[#CCFF00]/25 via-[#457B9D]/20 to-[#E63946]/15 blur-3xl pointer-events-none" />
-
         {/* Orbit Rings (CSS 3D) */}
         <div
           className="relative w-64 h-64 [transform-style:preserve-3d] transition-transform duration-75"
@@ -108,10 +118,10 @@ export function SkillCore3D() {
             <span className="font-mono text-[10px] font-black tracking-widest mt-1 text-white">
               DEV.CORE
             </span>
-            <span className="text-[8px] font-mono text-white/60">FULLSTACK</span>
+            <span className="text-[8px] font-mono text-[#CCFF00]">FULLSTACK</span>
           </div>
 
-          {/* Satellite Skill Nodes */}
+          {/* Satellite Skill Nodes with Authentic SVG Logos */}
           {SKILL_NODES.map((node) => {
             const isSelected = activeSkill?.id === node.id
             return (
@@ -126,24 +136,25 @@ export function SkillCore3D() {
                   transform: `translate3d(${node.x}px, ${node.y}px, ${node.z}px)`,
                 }}
               >
-                {/* Node Pill button that billboard-faces camera */}
+                {/* Node Pill button with authentic SVG logo */}
                 <div
                   className={`w-12 h-12 rounded-xl flex items-center justify-center border shadow-md transition-all duration-300 [transform-style:preserve-3d] ${
                     isSelected
                       ? 'bg-black text-white border-[#CCFF00] scale-125 shadow-xl'
-                      : 'bg-white text-[#1D3557] border-black/10 hover:scale-110 hover:border-black/30'
+                      : 'bg-white/95 text-[#1D3557] border-black/15 hover:scale-115 hover:border-black/40'
                   }`}
                   style={{
                     transform: `rotateY(${-rotY}deg) rotateX(${-rotX}deg)`,
                   }}
                 >
-                  {node.id === 'mobile' ? (
-                    <Smartphone className="w-5 h-5 text-[#F59E0B]" />
-                  ) : node.id === 'prisma' || node.id === 'nestjs' ? (
-                    <Layers className="w-5 h-5 text-[#1D3557]" />
-                  ) : (
-                    <Code className="w-5 h-5 text-[#1D3557]" />
-                  )}
+                  {node.id === 'react' && <ReactIcon className="w-6 h-6" />}
+                  {node.id === 'next' && <NextIcon className="w-6 h-6" />}
+                  {node.id === 'vue' && <VueIcon className="w-6 h-6" />}
+                  {node.id === 'nuxt' && <NuxtIcon className="w-6 h-6" />}
+                  {node.id === 'vite' && <ViteIcon className="w-6 h-6" />}
+                  {node.id === 'prisma' && <PrismaIcon className="w-6 h-6" />}
+                  {node.id === 'nestjs' && <NestIcon className="w-6 h-6" />}
+                  {node.id === 'mobile' && <FlutterIcon className="w-6 h-6" />}
                 </div>
 
                 {/* Always-readable Skill Label Tag */}

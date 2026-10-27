@@ -3,7 +3,6 @@ import {
   ArrowUpRight,
   Briefcase,
   Check,
-  Code2,
   Copy,
   FolderGit2,
 } from 'lucide-react'
@@ -15,6 +14,20 @@ import { BillboardMarquee } from '../components/BillboardMarquee'
 import { CustomCursor } from '../components/CustomCursor'
 import { Footer } from '../components/Footer'
 import { GithubIcon } from '../components/icons/GithubIcon'
+import {
+  DockerIcon,
+  FlutterIcon,
+  NestIcon,
+  NextIcon,
+  NuxtIcon,
+  PostgresIcon,
+  PrismaIcon,
+  ReactIcon,
+  TailwindIcon,
+  TypeScriptIcon,
+  ViteIcon,
+  VueIcon,
+} from '../components/icons/TechIcons'
 import { MyProfileSection } from '../components/MyProfileSection'
 import { NavbarDock } from '../components/NavbarDock'
 import { SkillCore3D } from '../components/SkillCore3D'
@@ -76,14 +89,14 @@ export function HomePage() {
             </div>
           </div>
 
-          {/* Right Column: Clean Skill Core 3D (React, Next, Vue, Nuxt, Vite, Prisma, NestJS, Mobile) */}
+          {/* Right Column: Clean Skill Core 3D with Matrix Rain Background */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
             <SkillCore3D />
           </div>
         </div>
       </section>
 
-      {/* Times Square / New York Giant Marquee Billboard (Full-Width) */}
+      {/* Times Square / New York Giant Marquee Billboard (Full-Width, Unpaused) */}
       <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
         <BillboardMarquee headline={c.marquee.headline} subtitle={c.marquee.subtitle} />
       </div>
@@ -211,34 +224,204 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Skills Section (Full-Width Responsive Grid) */}
-      <section id="skills" className="py-16 sm:py-20 px-6 sm:px-10 lg:px-16 w-full max-w-[1440px] mx-auto scroll-mt-24 border-t border-[#1D3557]/10">
-        <div className="mb-10 text-left">
-          <div className="flex items-center gap-2 mb-1.5">
-            <Code2 className="h-4 w-4 text-[#E63946]" />
-            <span className="text-xs font-mono font-bold text-[#457B9D] uppercase tracking-wider">
-              {c.skills.eyebrow}
-            </span>
+      {/* Skills Section: Brutalist Modern Engineering Matrix */}
+      <section id="skills" className="py-16 sm:py-24 px-6 sm:px-10 lg:px-16 w-full max-w-[1440px] mx-auto scroll-mt-24 border-t border-[#1D3557]/15">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 text-left">
+          <div>
+            <div className="flex items-center gap-2 mb-2 font-mono text-xs font-bold text-[#E63946] tracking-widest uppercase">
+              <span className="w-2 h-2 bg-[#E63946] inline-block" />
+              <span>{c.skills.eyebrow}</span>
+            </div>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#1D3557] tracking-tight">
+              {c.skills.title}
+            </h2>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-[#1D3557] tracking-tight">{c.skills.title}</h2>
+          <p className="text-xs sm:text-sm font-mono text-[#457B9D] max-w-md">
+            ARCHITECTURAL_CAPABILITIES // PRODUCTION_GRADE_STACK // ZERO_SLOP
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {c.skills.groups.map((group, idx) => (
-            <div
-              key={idx}
-              className="p-6 rounded-3xl bg-white border border-[#1D3557]/10 shadow-xs hover:border-[#1D3557]/30 transition-all flex flex-col justify-between text-left"
-            >
-              <div>
-                <h3 className="text-sm font-bold text-[#1D3557] mb-3">{group.category}</h3>
-                <div className="flex flex-wrap gap-1.5">
-                  {group.skills.map((skill) => (
-                    <Badge key={skill}>{skill}</Badge>
-                  ))}
-                </div>
+        {/* 4 Brutalist Architectural Tiers */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          {/* Tier 01: Reactive Frontend */}
+          <div className="p-7 sm:p-8 rounded-[2rem] bg-white border-2 border-[#1D3557]/15 hover:border-[#1D3557] shadow-sm hover:shadow-2xl transition-all duration-300 text-left flex flex-col justify-between group">
+            <div>
+              <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-6">
+                <span className="font-mono text-xs font-black text-[#E63946] tracking-widest uppercase">
+                  01 // REACTIVE FRONTEND
+                </span>
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#F1FAEE] border border-black/10 text-[#1D3557]">
+                  SSR • HYDRATION
+                </span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-[#1D3557] mb-2">
+                Modern Web & Reactive Architecture
+              </h3>
+              <p className="text-xs sm:text-sm text-[#457B9D] font-medium leading-relaxed mb-6">
+                Membangun antarmuka berskala produksi dengan Core Web Vitals 99, rendering SSR/SSG/ISR, dan state management modular.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-4 border-t border-black/5">
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <ReactIcon className="w-5 h-5 shrink-0" />
+                <span className="font-mono text-xs font-bold text-[#1D3557]">React 19</span>
+              </div>
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <NextIcon className="w-5 h-5 shrink-0" />
+                <span className="font-mono text-xs font-bold text-[#1D3557]">Next.js 15</span>
+              </div>
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <VueIcon className="w-5 h-5 shrink-0" />
+                <span className="font-mono text-xs font-bold text-[#1D3557]">Vue 3</span>
+              </div>
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <NuxtIcon className="w-5 h-5 shrink-0" />
+                <span className="font-mono text-xs font-bold text-[#1D3557]">Nuxt.js</span>
+              </div>
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <ViteIcon className="w-5 h-5 shrink-0" />
+                <span className="font-mono text-xs font-bold text-[#1D3557]">Vite</span>
+              </div>
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <TypeScriptIcon className="w-5 h-5 shrink-0" />
+                <span className="font-mono text-xs font-bold text-[#1D3557]">TypeScript</span>
               </div>
             </div>
-          ))}
+          </div>
+
+          {/* Tier 02: Enterprise Backend & APIs */}
+          <div className="p-7 sm:p-8 rounded-[2rem] bg-white border-2 border-[#1D3557]/15 hover:border-[#1D3557] shadow-sm hover:shadow-2xl transition-all duration-300 text-left flex flex-col justify-between group">
+            <div>
+              <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-6">
+                <span className="font-mono text-xs font-black text-[#E63946] tracking-widest uppercase">
+                  02 // ENTERPRISE BACKEND
+                </span>
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#F1FAEE] border border-black/10 text-[#1D3557]">
+                  DISTRIBUTED APIS
+                </span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-[#1D3557] mb-2">
+                Server Architecture & API Bridging
+              </h3>
+              <p className="text-xs sm:text-sm text-[#457B9D] font-medium leading-relaxed mb-6">
+                Arsitektur microservices berkecepatan tinggi, integrasi interoperabilitas BPJS/FHIR, dan transaksi data klinis rumah sakit.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-4 border-t border-black/5">
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <NestIcon className="w-5 h-5 shrink-0" />
+                <span className="font-mono text-xs font-bold text-[#1D3557]">NestJS</span>
+              </div>
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <span className="w-5 h-5 rounded bg-[#1D3557] text-[#CCFF00] font-black text-[10px] flex items-center justify-center font-mono">JS</span>
+                <span className="font-mono text-xs font-bold text-[#1D3557]">Node.js</span>
+              </div>
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <span className="w-5 h-5 rounded bg-[#4F5B93] text-white font-black text-[10px] flex items-center justify-center font-mono">PHP</span>
+                <span className="font-mono text-xs font-bold text-[#1D3557]">Laravel</span>
+              </div>
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <span className="w-5 h-5 rounded bg-[#E63946] text-white font-black text-[9px] flex items-center justify-center font-mono">REST</span>
+                <span className="font-mono text-xs font-bold text-[#1D3557]">RESTful API</span>
+              </div>
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <span className="w-5 h-5 rounded bg-[#1D3557] text-white font-black text-[9px] flex items-center justify-center font-mono">μS</span>
+                <span className="font-mono text-xs font-bold text-[#1D3557]">Microservices</span>
+              </div>
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <TailwindIcon className="w-5 h-5 shrink-0" />
+                <span className="font-mono text-xs font-bold text-[#1D3557]">Tailwind v4</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Tier 03: Database & ORM Pipeline */}
+          <div className="p-7 sm:p-8 rounded-[2rem] bg-white border-2 border-[#1D3557]/15 hover:border-[#1D3557] shadow-sm hover:shadow-2xl transition-all duration-300 text-left flex flex-col justify-between group">
+            <div>
+              <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-6">
+                <span className="font-mono text-xs font-black text-[#E63946] tracking-widest uppercase">
+                  03 // DATABASE & ORM
+                </span>
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#F1FAEE] border border-black/10 text-[#1D3557]">
+                  HIGH CONCURRENCY
+                </span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-[#1D3557] mb-2">
+                Data Persistence & Schema Integrity
+              </h3>
+              <p className="text-xs sm:text-sm text-[#457B9D] font-medium leading-relaxed mb-6">
+                Pemodelan relasional ketat, optimasi query transaksi medis berkecepatan tinggi, dan replikasi multi-region tanpa downtime.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-4 border-t border-black/5">
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <PrismaIcon className="w-5 h-5 shrink-0" />
+                <span className="font-mono text-xs font-bold text-[#1D3557]">Prisma ORM</span>
+              </div>
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <PostgresIcon className="w-5 h-5 shrink-0" />
+                <span className="font-mono text-xs font-bold text-[#1D3557]">PostgreSQL</span>
+              </div>
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <span className="w-5 h-5 rounded bg-[#00E599] text-black font-black text-[9px] flex items-center justify-center font-mono">NN</span>
+                <span className="font-mono text-xs font-bold text-[#1D3557]">Neon Serverless</span>
+              </div>
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <span className="w-5 h-5 rounded bg-[#00758F] text-white font-black text-[9px] flex items-center justify-center font-mono">SQL</span>
+                <span className="font-mono text-xs font-bold text-[#1D3557]">MySQL</span>
+              </div>
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <span className="w-5 h-5 rounded bg-[#DC382D] text-white font-black text-[9px] flex items-center justify-center font-mono">RD</span>
+                <span className="font-mono text-xs font-bold text-[#1D3557]">Redis Cache</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Tier 04: Mobile & Cloud Infrastructure */}
+          <div className="p-7 sm:p-8 rounded-[2rem] bg-white border-2 border-[#1D3557]/15 hover:border-[#1D3557] shadow-sm hover:shadow-2xl transition-all duration-300 text-left flex flex-col justify-between group">
+            <div>
+              <div className="flex items-center justify-between pb-4 border-b border-black/10 mb-6">
+                <span className="font-mono text-xs font-black text-[#E63946] tracking-widest uppercase">
+                  04 // MOBILE & INFRASTRUCTURE
+                </span>
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#F1FAEE] border border-black/10 text-[#1D3557]">
+                  CROSS-PLATFORM • LINUX
+                </span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-[#1D3557] mb-2">
+                Mobile Apps & Cloud DevOps
+              </h3>
+              <p className="text-xs sm:text-sm text-[#457B9D] font-medium leading-relaxed mb-6">
+                Pengembangan aplikasi native/cross-platform, deployment otomatis edge container, serta administrasi server Linux skala enterprise.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-4 border-t border-black/5">
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <FlutterIcon className="w-5 h-5 shrink-0" />
+                <span className="font-mono text-xs font-bold text-[#1D3557]">Flutter Mobile</span>
+              </div>
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <DockerIcon className="w-5 h-5 shrink-0" />
+                <span className="font-mono text-xs font-bold text-[#1D3557]">Docker</span>
+              </div>
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <span className="w-5 h-5 rounded bg-[#FCC624] text-black font-black text-[9px] flex items-center justify-center font-mono">LX</span>
+                <span className="font-mono text-xs font-bold text-[#1D3557]">Linux Server</span>
+              </div>
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <span className="w-5 h-5 rounded bg-black text-white font-black text-[9px] flex items-center justify-center font-mono">▲</span>
+                <span className="font-mono text-xs font-bold text-[#1D3557]">Vercel Edge</span>
+              </div>
+              <div className="p-3 rounded-xl bg-[#F1FAEE] border border-black/10 flex items-center gap-2.5">
+                <span className="w-5 h-5 rounded bg-[#F05032] text-white font-black text-[9px] flex items-center justify-center font-mono">GIT</span>
+                <span className="font-mono text-xs font-bold text-[#1D3557]">CI/CD Pipeline</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

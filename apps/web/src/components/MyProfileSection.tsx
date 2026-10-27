@@ -81,7 +81,7 @@ export function MyProfileSection({ currentLang }: MyProfileSectionProps) {
                 const y = e.clientY - rect.top
                 e.currentTarget.style.setProperty('--spot-x', `${x}px`)
                 e.currentTarget.style.setProperty('--spot-y', `${y}px`)
-                e.currentTarget.style.setProperty('--spot-size', '85px')
+                e.currentTarget.style.setProperty('--spot-size', '55px')
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.setProperty('--spot-size', '0px')

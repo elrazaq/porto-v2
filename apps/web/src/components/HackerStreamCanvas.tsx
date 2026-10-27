@@ -77,3 +77,4 @@ export function HackerStreamCanvas({ className = '' }: { className?: string }) {
     </div>
   )
 }
+

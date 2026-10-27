@@ -65,9 +65,9 @@ export function CustomCursor() {
       <div
         className={`rounded-full transition-all duration-150 ease-out flex items-center justify-center ${
           isPhoto
-            ? 'w-24 h-24 border-2 border-black/90 bg-white/5 backdrop-blur-[1px] shadow-xl'
+            ? 'w-29 h-29 border-0 '
             : isLink
-              ? 'w-11 h-11 bg-black/15 border border-black/50 backdrop-blur-xs scale-100'
+              ? 'w-11 h-11 bg-black/15 border border-black/50 backdrop-blur-[1px] scale-100'
               : 'w-3 h-3 bg-black shadow-xs'
         }`}
       />

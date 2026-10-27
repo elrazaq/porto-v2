@@ -12,11 +12,12 @@ import { Link } from 'react-router-dom'
 import { AmbientBackground } from '../components/AmbientBackground'
 import { Badge } from '../components/Badge'
 import { BillboardMarquee } from '../components/BillboardMarquee'
+import { CustomCursor } from '../components/CustomCursor'
 import { Footer } from '../components/Footer'
 import { GithubIcon } from '../components/icons/GithubIcon'
 import { MyProfileSection } from '../components/MyProfileSection'
 import { NavbarDock } from '../components/NavbarDock'
-import { SystemCore3D } from '../components/SystemCore3D'
+import { SkillCore3D } from '../components/SkillCore3D'
 import { contentData, type Language } from '../data/content'
 
 export function HomePage() {
@@ -34,18 +35,19 @@ export function HomePage() {
 
   return (
     <div className="min-h-screen text-[#1D3557] selection:bg-[#CCFF00] selection:text-black relative">
+      <CustomCursor />
       <AmbientBackground />
       <NavbarDock currentLang={lang} onToggleLang={setLang} navLabels={c.nav} />
 
-      {/* Hero Section (Matching Editorial Brutalist Reference) */}
-      <section className="pt-28 sm:pt-36 pb-12 px-4 sm:px-6 max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+      {/* Hero Section (Full-Width Editorial Canvas with Safe Gutters) */}
+      <section className="pt-28 sm:pt-36 pb-12 px-6 sm:px-10 lg:px-16 w-full max-w-[1440px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
           {/* Left Column: Massive Editorial Typography */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
             <h1 className="font-black text-5xl sm:text-7xl lg:text-8xl leading-[0.95] tracking-tighter text-[#1D3557] uppercase">
               <span className="block">{c.hero.titlePrefix}</span>
               <span className="inline-flex items-center flex-wrap gap-2 sm:gap-3 my-1">
-                {/* Photo Pill Capsule */}
+                {/* Photo Pill Capsule with Grayscale & Zoom */}
                 <span className="inline-flex items-center justify-center h-12 sm:h-16 lg:h-20 w-24 sm:w-32 lg:w-36 rounded-full overflow-hidden bg-black border-2 border-[#1D3557]/20 shadow-lg shrink-0 group align-middle transition-transform hover:scale-105">
                   <img
                     src="/profile.jpg"
@@ -60,12 +62,12 @@ export function HomePage() {
 
             {/* Sub-bar below Hero Heading */}
             <div className="w-full mt-10 pt-6 border-t border-[#1D3557]/15 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs sm:text-sm text-[#457B9D]">
-              <div className="font-semibold text-[#1D3557]">{c.hero.subLeft}</div>
+              <div className="font-bold text-[#1D3557] tracking-tight">{c.hero.subLeft}</div>
               <div className="hidden md:block text-[#457B9D]">{c.hero.subCenter}</div>
               <div>
                 <a
                   href="#contact"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#1D3557] hover:bg-[#E63946] text-white font-bold text-xs tracking-wider transition-all shadow-md group"
+                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#1D3557] hover:bg-[#E63946] text-white font-bold text-xs tracking-wider transition-all shadow-md group cursor-pointer"
                 >
                   <span>{c.hero.ctaStart}</span>
                   <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -74,25 +76,25 @@ export function HomePage() {
             </div>
           </div>
 
-          {/* Right Column: Original 3D Interactive System Core (Anti-Plagiarism) */}
+          {/* Right Column: Clean Skill Core 3D (React, Next, Vue, Nuxt, Vite, Prisma, NestJS, Mobile) */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
-            <SystemCore3D />
+            <SkillCore3D />
           </div>
         </div>
       </section>
 
-      {/* Times Square / New York Giant Marquee Billboard */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      {/* Times Square / New York Giant Marquee Billboard (Full-Width) */}
+      <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
         <BillboardMarquee headline={c.marquee.headline} subtitle={c.marquee.subtitle} />
       </div>
 
-      {/* My Profile Section (Editorial & Stats Grid & Studio Portrait) */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      {/* My Profile Section (Editorial Stats & Grayscale Spotlight Photo) */}
+      <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
         <MyProfileSection currentLang={lang} />
       </div>
 
-      {/* Featured Projects Section (Clean Device Cards with GitHub Link Only) */}
-      <section id="projects" className="py-16 sm:py-20 px-4 sm:px-6 max-w-6xl mx-auto scroll-mt-24">
+      {/* Featured Projects Section (Clean Full-Width Device Cards) */}
+      <section id="projects" className="py-16 sm:py-20 px-6 sm:px-10 lg:px-16 w-full max-w-[1440px] mx-auto scroll-mt-24">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
@@ -116,11 +118,11 @@ export function HomePage() {
             >
               <div>
                 {/* Visual Banner */}
-                <div className="h-52 bg-gradient-to-br from-[#1D3557] to-[#0A1118] relative overflow-hidden flex flex-col items-center justify-center p-6 text-white text-center">
+                <div className="h-56 bg-gradient-to-br from-[#1D3557] to-[#0A1118] relative overflow-hidden flex flex-col items-center justify-center p-6 text-white text-center">
                   <span className="text-xs font-mono font-bold text-[#A8DADC] uppercase tracking-widest block mb-2">
                     {proj.category}
                   </span>
-                  <span className="font-extrabold text-xl sm:text-2xl text-white block max-w-xs leading-snug">
+                  <span className="font-extrabold text-xl sm:text-2xl text-white block max-w-sm leading-snug">
                     {proj.title}
                   </span>
                   {proj.isFeatured && (
@@ -170,8 +172,8 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Experience Section (Condensed & Non-Boring) */}
-      <section id="experience" className="py-16 sm:py-20 px-4 sm:px-6 max-w-6xl mx-auto scroll-mt-24 border-t border-[#1D3557]/10">
+      {/* Experience Section (Condensed & Clean Timeline) */}
+      <section id="experience" className="py-16 sm:py-20 px-6 sm:px-10 lg:px-16 w-full max-w-[1440px] mx-auto scroll-mt-24 border-t border-[#1D3557]/10">
         <div className="mb-10 text-left">
           <div className="flex items-center gap-2 mb-1.5">
             <Briefcase className="h-4 w-4 text-[#E63946]" />
@@ -186,7 +188,7 @@ export function HomePage() {
           {c.experience.items.map((item, idx) => (
             <div
               key={idx}
-              className="p-6 rounded-3xl bg-white border border-[#1D3557]/10 shadow-sm hover:shadow-xl hover:border-[#1D3557]/30 transition-all flex flex-col justify-between text-left"
+              className="p-6 sm:p-7 rounded-3xl bg-white border border-[#1D3557]/10 shadow-sm hover:shadow-xl hover:border-[#1D3557]/30 transition-all flex flex-col justify-between text-left"
             >
               <div>
                 <span className="inline-block text-[11px] font-mono font-bold text-[#1D3557] bg-[#A8DADC]/40 px-2.5 py-1 rounded-lg mb-3">
@@ -194,7 +196,6 @@ export function HomePage() {
                 </span>
                 <h3 className="text-lg font-black text-[#1D3557]">{item.role}</h3>
                 <p className="text-xs font-bold text-[#457B9D] mt-0.5 mb-3">{item.company}</p>
-                {/* 1-line crisp impact sentence instead of multi-bullet wall */}
                 <p className="text-xs text-[#1D3557]/80 leading-relaxed font-medium">
                   {item.responsibilities[0]}
                 </p>
@@ -210,8 +211,8 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Skills Section */}
-      <section id="skills" className="py-16 sm:py-20 px-4 sm:px-6 max-w-6xl mx-auto scroll-mt-24 border-t border-[#1D3557]/10">
+      {/* Skills Section (Full-Width Responsive Grid) */}
+      <section id="skills" className="py-16 sm:py-20 px-6 sm:px-10 lg:px-16 w-full max-w-[1440px] mx-auto scroll-mt-24 border-t border-[#1D3557]/10">
         <div className="mb-10 text-left">
           <div className="flex items-center gap-2 mb-1.5">
             <Code2 className="h-4 w-4 text-[#E63946]" />
@@ -222,7 +223,7 @@ export function HomePage() {
           <h2 className="text-3xl sm:text-4xl font-black text-[#1D3557] tracking-tight">{c.skills.title}</h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {c.skills.groups.map((group, idx) => (
             <div
               key={idx}
@@ -241,11 +242,11 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Contact & Footer Section (Matching Screenshot 5) */}
-      <section id="contact" className="py-16 sm:py-20 px-4 sm:px-6 max-w-6xl mx-auto scroll-mt-24 border-t border-[#1D3557]/10">
+      {/* Contact & Footer Section (Full-Width) */}
+      <section id="contact" className="py-16 sm:py-20 px-6 sm:px-10 lg:px-16 w-full max-w-[1440px] mx-auto scroll-mt-24 border-t border-[#1D3557]/10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           {/* Left Dark Card: Brand & Mission */}
-          <div className="lg:col-span-5 rounded-[2.5rem] bg-[#121B24] text-white p-8 sm:p-10 flex flex-col justify-between shadow-xl text-left">
+          <div className="lg:col-span-5 rounded-[2.5rem] bg-[#121B24] text-white p-8 sm:p-12 flex flex-col justify-between shadow-xl text-left">
             <div>
               <div className="flex items-center gap-2.5 mb-6">
                 <div className="w-9 h-9 rounded-xl bg-[#CCFF00] text-black font-black flex items-center justify-center text-sm">
@@ -255,8 +256,8 @@ export function HomePage() {
               </div>
               <p className="text-sm sm:text-base text-white/80 leading-relaxed font-normal mb-8">
                 {isId
-                  ? 'Mendorong inovasi dan keandalan sistem melalui arsitektur terdistribusi, integrasi AI medis, dan otomasi proses birokrasi pemerintahan.'
-                  : 'Driving digital innovation through distributed system architectures, clinical AI integration, and enterprise business process automation.'}
+                  ? 'Membangun platform web modern berkinerja tinggi, arsitektur backend andal, dan aplikasi mobile yang scalable untuk kebutuhan enterprise.'
+                  : 'Engineering modern high-performance web platforms, resilient backend architectures, and scalable mobile apps for enterprise solutions.'}
               </p>
             </div>
 
@@ -287,7 +288,7 @@ export function HomePage() {
           </div>
 
           {/* Right Card: Navigation, Connect & Quick Inquiry Form */}
-          <div className="lg:col-span-7 rounded-[2.5rem] bg-white border border-[#1D3557]/10 p-8 sm:p-10 flex flex-col justify-between shadow-xl text-left">
+          <div className="lg:col-span-7 rounded-[2.5rem] bg-white border border-[#1D3557]/10 p-8 sm:p-12 flex flex-col justify-between shadow-xl text-left">
             <div className="grid grid-cols-2 gap-6 mb-8">
               <div>
                 <span className="font-serif italic text-sm text-[#457B9D] block mb-3">Navigation</span>

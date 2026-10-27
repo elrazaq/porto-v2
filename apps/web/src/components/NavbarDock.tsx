@@ -10,13 +10,13 @@ export function NavbarDock() {
     <header className="fixed top-4 inset-x-0 z-50 flex justify-center px-4 pointer-events-none">
       <nav className="pointer-events-auto flex items-center justify-between gap-4 px-4 py-2.5 rounded-2xl bg-white/80 border border-[#1D3557]/10 shadow-lg shadow-[#1D3557]/5 backdrop-blur-md max-w-4xl w-full transition-all">
         {/* Brand Monogram */}
-        <Link to="/" className="flex items-center gap-2 group">
-          <div className="h-9 w-9 rounded-xl bg-[#1D3557] text-[#F1FAEE] flex items-center justify-center font-bold text-sm tracking-wider shadow-xs group-hover:bg-[#E63946] transition-colors">
-            RF
+        <Link to="/" className="flex items-center gap-2.5 group">
+          <div className="h-9 w-9 rounded-xl bg-[#1D3557] text-[#F1FAEE] flex items-center justify-center font-bold text-xs tracking-wider shadow-xs group-hover:bg-[#E63946] transition-colors">
+            AR
           </div>
           <div className="hidden sm:block text-left leading-tight">
-            <span className="font-bold text-sm text-[#1D3557] block">Randy Fauzi</span>
-            <span className="text-[11px] font-mono text-[#457B9D] block">Portfolio & Engineering</span>
+            <span className="font-bold text-sm text-[#1D3557] block tracking-tight">Abdul Razak</span>
+            <span className="text-[11px] font-mono text-[#457B9D] block">Software Engineer</span>
           </div>
         </Link>
 
@@ -79,4 +79,3 @@ export function NavbarDock() {
     </header>
   )
 }
-

@@ -17,6 +17,10 @@
   color-scheme: light;
 }
 
+html, body {
+  overflow-x: clip;
+}
+
 body {
   background-color: var(--color-brand-bg);
   color: var(--color-brand-primary);

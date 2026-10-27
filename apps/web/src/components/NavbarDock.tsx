@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { ArrowLeft, Menu, X } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 import type { Language } from '../data/content'
-import { Button } from './Button'
 
 export interface NavbarDockProps {
   currentLang?: Language
@@ -73,32 +72,36 @@ export function NavbarDock({
           />
         </Link>
 
-        {/* Desktop Anchor Navigation */}
+        {/* Desktop Anchor Navigation (Order: About -> Projects -> Experience -> Skills) */}
         {isHomePage ? (
-          <div className="hidden md:flex items-center gap-1.5 text-sm font-bold text-[#457B9D]">
+          <div className="hidden md:flex items-center gap-2">
             <a
               href="#about"
-              className="px-3 py-1.5 rounded-lg hover:text-[#1D3557] hover:bg-black/5 transition-colors"
+              className="group px-3 py-1.5 font-mono text-xs font-black uppercase tracking-wider text-[#1D3557] border border-transparent hover:border-black hover:bg-black hover:text-[#CCFF00] transition-colors"
             >
-              {navLabels.about}
-            </a>
-            <a
-              href="#experience"
-              className="px-3 py-1.5 rounded-lg hover:text-[#1D3557] hover:bg-black/5 transition-colors"
-            >
-              {navLabels.experience}
+              <span className="opacity-50 group-hover:opacity-100 mr-1 text-[10px]">01//</span>
+              <span>{navLabels.about}</span>
             </a>
             <a
               href="#projects"
-              className="px-3 py-1.5 rounded-lg hover:text-[#1D3557] hover:bg-black/5 transition-colors"
+              className="group px-3 py-1.5 font-mono text-xs font-black uppercase tracking-wider text-[#1D3557] border border-transparent hover:border-black hover:bg-black hover:text-[#CCFF00] transition-colors"
             >
-              {navLabels.projects}
+              <span className="opacity-50 group-hover:opacity-100 mr-1 text-[10px]">02//</span>
+              <span>{navLabels.projects}</span>
+            </a>
+            <a
+              href="#experience"
+              className="group px-3 py-1.5 font-mono text-xs font-black uppercase tracking-wider text-[#1D3557] border border-transparent hover:border-black hover:bg-black hover:text-[#CCFF00] transition-colors"
+            >
+              <span className="opacity-50 group-hover:opacity-100 mr-1 text-[10px]">03//</span>
+              <span>{navLabels.experience}</span>
             </a>
             <a
               href="#skills"
-              className="px-3 py-1.5 rounded-lg hover:text-[#1D3557] hover:bg-black/5 transition-colors"
+              className="group px-3 py-1.5 font-mono text-xs font-black uppercase tracking-wider text-[#1D3557] border border-transparent hover:border-black hover:bg-black hover:text-[#CCFF00] transition-colors"
             >
-              {navLabels.skills}
+              <span className="opacity-50 group-hover:opacity-100 mr-1 text-[10px]">04//</span>
+              <span>{navLabels.skills}</span>
             </a>
           </div>
         ) : (
@@ -111,30 +114,31 @@ export function NavbarDock({
           </Link>
         )}
 
-        {/* Controls: Language Toggle & Action & Mobile Hamburger */}
+        {/* Controls: Brutal Language Toggle & Mobile Hamburger */}
         <div className="flex items-center gap-3">
-          {/* Language Toggle Pill */}
+          {/* Brutalist Language Toggle Box */}
           {onToggleLang && (
-            <div className="flex items-center p-0.5 rounded-xl bg-[#F1FAEE] border border-black/15 text-xs font-mono">
+            <div className="flex items-center border-2 border-black bg-white p-0.5 text-xs font-mono shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
               <button
                 type="button"
                 onClick={() => onToggleLang('id')}
-                className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer font-bold ${
+                className={`px-2.5 py-1 transition-colors cursor-pointer font-black ${
                   currentLang === 'id'
-                    ? 'bg-[#1D3557] text-[#F1FAEE] shadow-xs'
-                    : 'text-[#457B9D] hover:text-[#1D3557]'
+                    ? 'bg-black text-[#CCFF00]'
+                    : 'text-black hover:bg-black/10'
                 }`}
                 aria-label="Bahasa Indonesia"
               >
                 ID
               </button>
+              <span className="text-black/30 font-bold px-0.5 select-none">|</span>
               <button
                 type="button"
                 onClick={() => onToggleLang('en')}
-                className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer font-bold ${
+                className={`px-2.5 py-1 transition-colors cursor-pointer font-black ${
                   currentLang === 'en'
-                    ? 'bg-[#1D3557] text-[#F1FAEE] shadow-xs'
-                    : 'text-[#457B9D] hover:text-[#1D3557]'
+                    ? 'bg-black text-[#CCFF00]'
+                    : 'text-black hover:bg-black/10'
                 }`}
                 aria-label="English"
               >
@@ -143,29 +147,12 @@ export function NavbarDock({
             </div>
           )}
 
-          {/* Desktop Contact CTA */}
-          <div className="hidden sm:block">
-            {isHomePage ? (
-              <a href="#contact">
-                <Button size="sm" variant="primary" className="rounded-xl px-4 py-2 font-bold text-xs uppercase tracking-wider">
-                  <span>{navLabels.contact}</span>
-                </Button>
-              </a>
-            ) : (
-              <Link to="/admin/login">
-                <Button size="sm" variant="outline" className="rounded-xl">
-                  <span>{navLabels.admin}</span>
-                </Button>
-              </Link>
-            )}
-          </div>
-
           {/* Mobile Hamburger Button */}
           {isHomePage && (
             <button
               type="button"
               onClick={() => setMobileMenuOpen((open) => !open)}
-              className="md:hidden p-2 rounded-xl text-[#1D3557] hover:bg-black/5 border border-black/10 transition-colors cursor-pointer"
+              className="md:hidden p-2 border-2 border-black bg-white text-black hover:bg-black hover:text-[#CCFF00] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-colors cursor-pointer"
               aria-label="Toggle navigation menu"
               aria-expanded={mobileMenuOpen}
             >
@@ -177,43 +164,39 @@ export function NavbarDock({
 
       {/* Mobile Drawer Menu Overlay */}
       {mobileMenuOpen && isHomePage && (
-        <div className="md:hidden w-full bg-white/98 backdrop-blur-xl border-t border-black/10 shadow-2xl px-6 py-5 flex flex-col gap-3 animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="md:hidden w-full bg-white border-b-2 border-black shadow-2xl px-6 py-6 flex flex-col gap-2 font-mono">
           <a
             href="#about"
             onClick={closeMobile}
-            className="px-3 py-2.5 rounded-xl font-bold text-sm text-[#1D3557] hover:bg-[#F1FAEE] transition-colors"
+            className="flex items-center justify-between px-3 py-2.5 border border-black/10 hover:border-black hover:bg-black hover:text-[#CCFF00] transition-colors font-bold text-xs uppercase"
           >
-            {navLabels.about}
-          </a>
-          <a
-            href="#experience"
-            onClick={closeMobile}
-            className="px-3 py-2.5 rounded-xl font-bold text-sm text-[#1D3557] hover:bg-[#F1FAEE] transition-colors"
-          >
-            {navLabels.experience}
+            <span>{navLabels.about}</span>
+            <span className="text-[10px] opacity-60">01//</span>
           </a>
           <a
             href="#projects"
             onClick={closeMobile}
-            className="px-3 py-2.5 rounded-xl font-bold text-sm text-[#1D3557] hover:bg-[#F1FAEE] transition-colors"
+            className="flex items-center justify-between px-3 py-2.5 border border-black/10 hover:border-black hover:bg-black hover:text-[#CCFF00] transition-colors font-bold text-xs uppercase"
           >
-            {navLabels.projects}
+            <span>{navLabels.projects}</span>
+            <span className="text-[10px] opacity-60">02//</span>
+          </a>
+          <a
+            href="#experience"
+            onClick={closeMobile}
+            className="flex items-center justify-between px-3 py-2.5 border border-black/10 hover:border-black hover:bg-black hover:text-[#CCFF00] transition-colors font-bold text-xs uppercase"
+          >
+            <span>{navLabels.experience}</span>
+            <span className="text-[10px] opacity-60">03//</span>
           </a>
           <a
             href="#skills"
             onClick={closeMobile}
-            className="px-3 py-2.5 rounded-xl font-bold text-sm text-[#1D3557] hover:bg-[#F1FAEE] transition-colors"
+            className="flex items-center justify-between px-3 py-2.5 border border-black/10 hover:border-black hover:bg-black hover:text-[#CCFF00] transition-colors font-bold text-xs uppercase"
           >
-            {navLabels.skills}
+            <span>{navLabels.skills}</span>
+            <span className="text-[10px] opacity-60">04//</span>
           </a>
-
-          <div className="pt-2 border-t border-black/10 flex flex-col gap-2">
-            <a href="#contact" onClick={closeMobile} className="w-full">
-              <Button size="md" variant="primary" className="w-full justify-center rounded-xl font-bold uppercase tracking-wider text-xs">
-                <span>{navLabels.contact}</span>
-              </Button>
-            </a>
-          </div>
         </div>
       )}
     </header>

@@ -1,16 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { Cpu } from 'lucide-react'
 import { HackerStreamCanvas } from './HackerStreamCanvas'
-import {
-  FlutterIcon,
-  NestIcon,
-  NextIcon,
-  NuxtIcon,
-  PrismaIcon,
-  ReactIcon,
-  ViteIcon,
-  VueIcon,
-} from './icons/TechIcons'
 
 interface SkillNode {
   id: string
@@ -19,6 +9,17 @@ interface SkillNode {
   x: number
   y: number
   z: number
+}
+
+const NODE_PNGS: Record<string, string> = {
+  react: '/skills/react.png',
+  next: '/skills/nextjs.png',
+  vue: '/skills/vue.png',
+  nuxt: '/skills/nuxt.png',
+  vite: '/skills/vite.png',
+  prisma: '/skills/prisma.png',
+  nestjs: '/skills/nestjs.png',
+  mobile: '/skills/flutter.png',
 }
 
 const SKILL_NODES: SkillNode[] = [
@@ -112,18 +113,19 @@ export function SkillCore3D() {
           <div className="absolute inset-0 rounded-full border border-dashed border-[#457B9D]/20 [transform:rotateY(60deg)] pointer-events-none" />
           <div className="absolute inset-0 rounded-full border border-black/10 [transform:rotateZ(45deg)] pointer-events-none" />
 
-          {/* Central Dev Core Hub */}
-          <div className="absolute inset-0 m-auto w-24 h-24 rounded-2xl bg-[#121B24] shadow-2xl border border-white/20 flex flex-col items-center justify-center text-white [transform-style:preserve-3d] transform hover:scale-105 transition-transform">
-            <Cpu className="w-8 h-8 text-[#CCFF00]" />
-            <span className="font-mono text-[10px] font-black tracking-widest mt-1 text-white">
+          {/* Central Dev Core Hub (Brutalist Sharp Box) */}
+          <div className="absolute inset-0 m-auto w-24 h-24 rounded-none bg-[#121B24] border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col items-center justify-center text-white [transform-style:preserve-3d] transform hover:scale-105 transition-transform">
+            <Cpu className="w-8 h-8 text-[#CCFF00] animate-pulse" />
+            <span className="font-mono text-[10px] font-black tracking-widest mt-1 text-white uppercase">
               DEV.CORE
             </span>
-            <span className="text-[8px] font-mono text-[#CCFF00]">FULLSTACK</span>
+            <span className="text-[8px] font-mono font-bold text-[#CCFF00]">AR // FULLSTACK</span>
           </div>
 
-          {/* Satellite Skill Nodes with Authentic SVG Logos */}
+          {/* Satellite Skill Nodes with Authentic PNG Images */}
           {SKILL_NODES.map((node) => {
             const isSelected = activeSkill?.id === node.id
+            const pngIcon = NODE_PNGS[node.id]
             return (
               <div
                 key={node.id}
@@ -136,25 +138,27 @@ export function SkillCore3D() {
                   transform: `translate3d(${node.x}px, ${node.y}px, ${node.z}px)`,
                 }}
               >
-                {/* Node Pill button with authentic SVG logo */}
+                {/* Node Box with authentic PNG image */}
                 <div
-                  className={`w-12 h-12 rounded-xl flex items-center justify-center border shadow-md transition-all duration-300 [transform-style:preserve-3d] ${
+                  className={`w-12 h-12 rounded-none flex items-center justify-center border-2 transition-all duration-300 [transform-style:preserve-3d] ${
                     isSelected
-                      ? 'bg-black text-white border-[#CCFF00] scale-125 shadow-xl'
-                      : 'bg-white/95 text-[#1D3557] border-black/15 hover:scale-115 hover:border-black/40'
+                      ? 'bg-black text-white border-[#CCFF00] scale-125 shadow-[4px_4px_0px_0px_rgba(204,255,0,1)]'
+                      : 'bg-white text-black border-black hover:scale-115 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
                   }`}
                   style={{
                     transform: `rotateY(${-rotY}deg) rotateX(${-rotX}deg)`,
                   }}
                 >
-                  {node.id === 'react' && <ReactIcon className="w-6 h-6" />}
-                  {node.id === 'next' && <NextIcon className="w-6 h-6" />}
-                  {node.id === 'vue' && <VueIcon className="w-6 h-6" />}
-                  {node.id === 'nuxt' && <NuxtIcon className="w-6 h-6" />}
-                  {node.id === 'vite' && <ViteIcon className="w-6 h-6" />}
-                  {node.id === 'prisma' && <PrismaIcon className="w-6 h-6" />}
-                  {node.id === 'nestjs' && <NestIcon className="w-6 h-6" />}
-                  {node.id === 'mobile' && <FlutterIcon className="w-6 h-6" />}
+                  {pngIcon && (
+                    <img
+                      src={pngIcon}
+                      alt={node.label}
+                      className="w-7 h-7 object-contain select-none pointer-events-none"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none'
+                      }}
+                    />
+                  )}
                 </div>
 
                 {/* Always-readable Skill Label Tag */}
@@ -165,10 +169,10 @@ export function SkillCore3D() {
                   }}
                 >
                   <span
-                    className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold tracking-tight shadow-xs ${
+                    className={`px-1.5 py-0.5 rounded-none text-[9px] font-mono font-black tracking-tight border border-black uppercase ${
                       isSelected
                         ? 'bg-black text-[#CCFF00]'
-                        : 'bg-white/95 text-black border border-black/10'
+                        : 'bg-white text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
                     }`}
                   >
                     {node.label}

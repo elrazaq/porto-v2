@@ -25,13 +25,13 @@ export function Footer() {
       </div>
 
       <div className="flex items-center gap-4">
-        <span className="hidden md:inline font-mono text-[11px] text-[#457B9D]/80">
-          React 19 • NestJS • Prisma • Cloudinary • Neon
+        <span className="hidden md:inline font-mono text-[11px] text-[#457B9D]/80 uppercase tracking-wider">
+          PRODUCTION READY // DISTRIBUTED SYSTEMS // ZERO COMPROMISE
         </span>
         <button
           type="button"
           onClick={scrollToTop}
-          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg border border-[#1D3557]/10 bg-white hover:bg-[#F1FAEE] text-[#1D3557] transition-all cursor-pointer font-medium"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-none border-2 border-black bg-white hover:bg-black hover:text-[#CCFF00] text-black transition-all cursor-pointer font-mono font-black text-xs uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none"
           aria-label="Kembali ke atas"
         >
           <span>Atas</span>

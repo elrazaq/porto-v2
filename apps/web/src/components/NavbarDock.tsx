@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ArrowLeft, Menu, X } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 import type { Language } from '../data/content'
@@ -30,48 +30,73 @@ export function NavbarDock({
   },
 }: NavbarDockProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
   const location = useLocation()
   const isHomePage = location.pathname === '/'
+
+  // Smart Hide on Scroll Down / Reveal on Scroll Up
+  useEffect(() => {
+    let lastY = window.scrollY
+
+    const handleScroll = () => {
+      const currentY = window.scrollY
+      // If mobile menu is open, don't auto-hide
+      if (mobileMenuOpen) return
+
+      if (currentY > 80 && currentY > lastY + 5) {
+        setIsVisible(false)
+      } else if (currentY < lastY - 5 || currentY <= 20) {
+        setIsVisible(true)
+      }
+      lastY = currentY
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [mobileMenuOpen])
 
   const closeMobile = () => setMobileMenuOpen(false)
 
   return (
-    <header className="fixed top-4 inset-x-0 z-50 flex justify-center px-4 pointer-events-none">
-      <nav className="pointer-events-auto flex items-center justify-between gap-3 sm:gap-4 px-4 py-2.5 rounded-2xl bg-white/95 border border-[#1D3557]/10 shadow-lg shadow-[#1D3557]/5 backdrop-blur-md max-w-4xl w-full transition-all">
-        {/* Brand */}
-        <Link to="/" onClick={closeMobile} className="flex items-center gap-2 group">
-          <div className="h-8 w-8 rounded-xl bg-[#1D3557] text-[#F1FAEE] flex items-center justify-center font-bold text-xs tracking-wider group-hover:bg-[#E63946] transition-colors">
-            AR
-          </div>
-          <span className="font-extrabold text-sm sm:text-base text-[#1D3557] tracking-tight">
-            Abdul Razak<span className="text-[#E63946]">.</span>
-          </span>
+    <header
+      className={`fixed top-0 inset-x-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-black/10 transition-transform duration-300 ease-out ${
+        isVisible ? 'translate-y-0' : '-translate-y-full'
+      }`}
+    >
+      <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 py-3 flex items-center justify-between gap-4">
+        {/* Brand Official Logo */}
+        <Link to="/" onClick={closeMobile} className="flex items-center gap-3 group">
+          <img
+            src="/logo-dark.png"
+            alt="Abdul Razak - Fullstack Developer"
+            className="h-8 sm:h-9 w-auto object-contain hover:opacity-90 transition-opacity"
+          />
         </Link>
 
-        {/* Desktop Anchor Links */}
+        {/* Desktop Anchor Navigation */}
         {isHomePage ? (
-          <div className="hidden md:flex items-center gap-1 text-sm font-medium text-[#457B9D]">
+          <div className="hidden md:flex items-center gap-1.5 text-sm font-bold text-[#457B9D]">
             <a
               href="#about"
-              className="px-2.5 py-1.5 rounded-lg hover:text-[#1D3557] hover:bg-black/5 transition-colors"
+              className="px-3 py-1.5 rounded-lg hover:text-[#1D3557] hover:bg-black/5 transition-colors"
             >
               {navLabels.about}
             </a>
             <a
               href="#experience"
-              className="px-2.5 py-1.5 rounded-lg hover:text-[#1D3557] hover:bg-black/5 transition-colors"
+              className="px-3 py-1.5 rounded-lg hover:text-[#1D3557] hover:bg-black/5 transition-colors"
             >
               {navLabels.experience}
             </a>
             <a
               href="#projects"
-              className="px-2.5 py-1.5 rounded-lg hover:text-[#1D3557] hover:bg-black/5 transition-colors"
+              className="px-3 py-1.5 rounded-lg hover:text-[#1D3557] hover:bg-black/5 transition-colors"
             >
               {navLabels.projects}
             </a>
             <a
               href="#skills"
-              className="px-2.5 py-1.5 rounded-lg hover:text-[#1D3557] hover:bg-black/5 transition-colors"
+              className="px-3 py-1.5 rounded-lg hover:text-[#1D3557] hover:bg-black/5 transition-colors"
             >
               {navLabels.skills}
             </a>
@@ -79,7 +104,7 @@ export function NavbarDock({
         ) : (
           <Link
             to="/#projects"
-            className="flex items-center gap-1.5 text-xs sm:text-sm font-medium text-[#457B9D] hover:text-[#1D3557] transition-colors"
+            className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#457B9D] hover:text-[#1D3557] transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
             <span>Kembali ke Portofolio</span>
@@ -87,14 +112,14 @@ export function NavbarDock({
         )}
 
         {/* Controls: Language Toggle & Action & Mobile Hamburger */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           {/* Language Toggle Pill */}
           {onToggleLang && (
-            <div className="flex items-center p-0.5 rounded-xl bg-[#F1FAEE] border border-[#1D3557]/15 text-xs font-mono">
+            <div className="flex items-center p-0.5 rounded-xl bg-[#F1FAEE] border border-black/15 text-xs font-mono">
               <button
                 type="button"
                 onClick={() => onToggleLang('id')}
-                className={`px-2 py-1 rounded-lg transition-all cursor-pointer font-bold ${
+                className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer font-bold ${
                   currentLang === 'id'
                     ? 'bg-[#1D3557] text-[#F1FAEE] shadow-xs'
                     : 'text-[#457B9D] hover:text-[#1D3557]'
@@ -106,7 +131,7 @@ export function NavbarDock({
               <button
                 type="button"
                 onClick={() => onToggleLang('en')}
-                className={`px-2 py-1 rounded-lg transition-all cursor-pointer font-bold ${
+                className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer font-bold ${
                   currentLang === 'en'
                     ? 'bg-[#1D3557] text-[#F1FAEE] shadow-xs'
                     : 'text-[#457B9D] hover:text-[#1D3557]'
@@ -122,7 +147,7 @@ export function NavbarDock({
           <div className="hidden sm:block">
             {isHomePage ? (
               <a href="#contact">
-                <Button size="sm" variant="primary" className="rounded-xl">
+                <Button size="sm" variant="primary" className="rounded-xl px-4 py-2 font-bold text-xs uppercase tracking-wider">
                   <span>{navLabels.contact}</span>
                 </Button>
               </a>
@@ -140,7 +165,7 @@ export function NavbarDock({
             <button
               type="button"
               onClick={() => setMobileMenuOpen((open) => !open)}
-              className="md:hidden p-2 rounded-xl text-[#1D3557] hover:bg-black/5 border border-[#1D3557]/10 transition-colors cursor-pointer"
+              className="md:hidden p-2 rounded-xl text-[#1D3557] hover:bg-black/5 border border-black/10 transition-colors cursor-pointer"
               aria-label="Toggle navigation menu"
               aria-expanded={mobileMenuOpen}
             >
@@ -148,54 +173,43 @@ export function NavbarDock({
             </button>
           )}
         </div>
-      </nav>
+      </div>
 
       {/* Mobile Drawer Menu Overlay */}
       {mobileMenuOpen && isHomePage && (
-        <div className="pointer-events-auto md:hidden fixed inset-x-4 top-20 rounded-2xl bg-white/98 backdrop-blur-xl border border-[#1D3557]/15 shadow-2xl p-5 flex flex-col gap-3 transition-all animate-in fade-in slide-in-from-top-4 duration-200 z-50">
-          <div className="flex items-center justify-between pb-3 border-b border-[#1D3557]/10">
-            <span className="font-mono text-xs font-bold text-[#457B9D] uppercase tracking-wider">Navigasi</span>
-            <button
-              type="button"
-              onClick={closeMobile}
-              className="p-1 rounded-lg text-[#1D3557] hover:bg-black/5"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          </div>
-
+        <div className="md:hidden w-full bg-white/98 backdrop-blur-xl border-t border-black/10 shadow-2xl px-6 py-5 flex flex-col gap-3 animate-in fade-in slide-in-from-top-2 duration-200">
           <a
             href="#about"
             onClick={closeMobile}
-            className="px-3 py-2.5 rounded-xl font-semibold text-[#1D3557] hover:bg-[#F1FAEE] transition-colors"
+            className="px-3 py-2.5 rounded-xl font-bold text-sm text-[#1D3557] hover:bg-[#F1FAEE] transition-colors"
           >
             {navLabels.about}
           </a>
           <a
             href="#experience"
             onClick={closeMobile}
-            className="px-3 py-2.5 rounded-xl font-semibold text-[#1D3557] hover:bg-[#F1FAEE] transition-colors"
+            className="px-3 py-2.5 rounded-xl font-bold text-sm text-[#1D3557] hover:bg-[#F1FAEE] transition-colors"
           >
             {navLabels.experience}
           </a>
           <a
             href="#projects"
             onClick={closeMobile}
-            className="px-3 py-2.5 rounded-xl font-semibold text-[#1D3557] hover:bg-[#F1FAEE] transition-colors"
+            className="px-3 py-2.5 rounded-xl font-bold text-sm text-[#1D3557] hover:bg-[#F1FAEE] transition-colors"
           >
             {navLabels.projects}
           </a>
           <a
             href="#skills"
             onClick={closeMobile}
-            className="px-3 py-2.5 rounded-xl font-semibold text-[#1D3557] hover:bg-[#F1FAEE] transition-colors"
+            className="px-3 py-2.5 rounded-xl font-bold text-sm text-[#1D3557] hover:bg-[#F1FAEE] transition-colors"
           >
             {navLabels.skills}
           </a>
 
-          <div className="pt-2 border-t border-[#1D3557]/10 flex flex-col gap-2">
+          <div className="pt-2 border-t border-black/10 flex flex-col gap-2">
             <a href="#contact" onClick={closeMobile} className="w-full">
-              <Button size="md" variant="primary" className="w-full justify-center rounded-xl">
+              <Button size="md" variant="primary" className="w-full justify-center rounded-xl font-bold uppercase tracking-wider text-xs">
                 <span>{navLabels.contact}</span>
               </Button>
             </a>

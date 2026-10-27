@@ -36,6 +36,12 @@ export interface PortfolioContent {
     admin: string
   }
   hero: {
+    titlePrefix: string
+    titleHighlight: string
+    titleSuffix: string
+    subLeft: string
+    subCenter: string
+    ctaStart: string
     statusBadge: string
     greeting: string
     roles: string[]
@@ -43,6 +49,10 @@ export interface PortfolioContent {
     ctaProjects: string
     ctaResume: string
     yearsBadge: string
+  }
+  marquee: {
+    headline: string
+    subtitle: string
   }
   experience: {
     eyebrow: string
@@ -86,6 +96,12 @@ export const contentData: Record<Language, PortfolioContent> = {
       admin: 'Admin',
     },
     hero: {
+      titlePrefix: 'WE ENGINEER',
+      titleHighlight: 'DIGITAL',
+      titleSuffix: 'SYSTEMS',
+      subLeft: 'Untuk Instansi Kesehatan & Korporasi',
+      subCenter: 'Dari Modernisasi SIMRS RSUD hingga Arsitektur Next.js & AI',
+      ctaStart: 'MULAI PROYEK',
       statusBadge: 'Tersedia untuk Pekerjaan',
       greeting: 'Halo, saya Abdul Razak.',
       roles: [
@@ -98,6 +114,10 @@ export const contentData: Record<Language, PortfolioContent> = {
       ctaProjects: 'Lihat Proyek Pilihan',
       ctaResume: 'Unduh Resume (CV)',
       yearsBadge: '5+ Thn Pengalaman Spesialis',
+    },
+    marquee: {
+      headline: 'DISTRIBUTED ARCHITECTURE • SIMRS & SATUSEHAT INTEGRATION • NEXT.JS & REACT • AI CLINICAL ENGINE • CORE WEB VITALS 99 • CLEAN CODE • HIGH AVAILABILITY •',
+      subtitle: 'Abdul Razak, S.T. adalah Lead Full-Stack Engineer yang menjembatani kebutuhan operasional instansi & korporasi dengan solusi teknologi terdistribusi berkinerja tinggi.',
     },
     experience: {
       eyebrow: 'Riwayat Karir & Tanggung Jawab',
@@ -230,6 +250,12 @@ export const contentData: Record<Language, PortfolioContent> = {
       admin: 'Admin',
     },
     hero: {
+      titlePrefix: 'WE ENGINEER',
+      titleHighlight: 'DIGITAL',
+      titleSuffix: 'SYSTEMS',
+      subLeft: 'For Healthcare & Regional Enterprise',
+      subCenter: 'From Hospital SIMRS to Modern Next.js Architectures & AI',
+      ctaStart: 'START THE PROJECT',
       statusBadge: 'Available for work',
       greeting: 'Hello, I am Abdul Razak.',
       roles: [
@@ -242,6 +268,10 @@ export const contentData: Record<Language, PortfolioContent> = {
       ctaProjects: 'Explore Selected Work',
       ctaResume: 'Download Resume (CV)',
       yearsBadge: '5+ Yrs Specialized Exp',
+    },
+    marquee: {
+      headline: 'DISTRIBUTED ARCHITECTURE • SIMRS INTEGRATION • NEXT.JS & REACT • AI ENGINE • CORE WEB VITALS 99 • CLEAN CODE • HIGH AVAILABILITY •',
+      subtitle: 'Abdul Razak, S.T. is a Lead Full-Stack Engineer bridging regional enterprise needs with high-performance distributed tech architectures, clinical AI integration, and robust data pipelines.',
     },
     experience: {
       eyebrow: 'Career History & Responsibilities',

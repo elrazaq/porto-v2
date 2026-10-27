@@ -2,6 +2,7 @@ import { ArrowLeft, Code, ExternalLink, Sparkles } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import { Badge } from '../components/Badge'
 import { Button } from '../components/Button'
+import { Footer } from '../components/Footer'
 import { GithubIcon } from '../components/icons/GithubIcon'
 import { NavbarDock } from '../components/NavbarDock'
 
@@ -10,24 +11,24 @@ export function ProjectDetailPage() {
 
   // Mock details for M1 verification
   const project = {
-    title: 'Enterprise E-Commerce Platform',
+    title: 'Enterprise Multi-Vendor Platform',
     slug: slug || 'enterprise-ecommerce',
     summary:
-      'Sistem platform e-commerce multi-vendor dengan autentikasi berbasis RBAC dan pengelolaan katalog produk berskala besar.',
-    description: `### Arsitektur & Latar Belakang
-Platform ini dibangun untuk menangani tantangan skalabilitas dan keamanan data pada sistem transaksi multi-vendor. Menggunakan arsitektur monorepo decoupled dengan backend NestJS dan frontend React 19.
+      'Arsitektur platform e-commerce terdistribusi dengan proteksi RBAC database, refresh session rotation, dan katalog media Cloudinary.',
+    description: `### Arsitektur & Rekayasa Solusi
+Aplikasi dirancang menggunakan arsitektur monorepo modern untuk memisahkan beban komputasi backend NestJS dengan pengalaman rendering cepat di frontend React 19.
 
-### Fitur Utama
-- **Autentikasi Aman**: Cookie-based JWT dual-token dengan rotasi token dan deteksi refresh-token reuse.
-- **Role-Based Access Control (RBAC)**: Pemisahan hak akses antara Superadmin, Vendor Manager, dan Customer.
-- **Katalog Produk Dinamis**: Penanganan varian produk beresolusi tinggi dengan CDN Cloudinary.
-- **Database Optimized**: PostgreSQL dengan Prisma ORM dan connection pooling Neon.`,
-    repoUrl: 'https://github.com/example/ecommerce-platform',
+### Poin Rekayasa Utama
+- **Autentikasi Dual-Token**: Access token (15 menit) dan refresh token (7 hari) tersimpan dalam cookie httpOnly dengan deteksi replay family token.
+- **Role-Based Access Control**: Evaluasi izin secara langsung di level guard NestJS dengan tabel relasional PostgreSQL.
+- **Katalog Media Cloudinary**: Transformasi gambar otomatis WebP dengan optimasi lebar layar responsif.
+- **High-Performance Database**: Terhubung ke Neon Serverless PostgreSQL dengan adapter connection pooling.`,
+    repoUrl: 'https://github.com/elrazaq',
     techStack: ['React 19', 'TypeScript', 'NestJS', 'PostgreSQL', 'Prisma', 'Cloudinary', 'Tailwind CSS'],
     images: [
-      { id: '1', caption: 'Dashboard Overview & Analytics' },
-      { id: '2', caption: 'Product Catalog Management' },
-      { id: '3', caption: 'Role Permissions & Access Control' },
+      { id: '1', caption: 'Arsitektur Sistem & Dashboard Analitik' },
+      { id: '2', caption: 'Katalog Produk Multi-Vendor' },
+      { id: '3', caption: 'Manajemen Hak Akses & RBAC Security' },
     ],
   }
 
@@ -102,7 +103,7 @@ Platform ini dibangun untuk menangani tantangan skalabilitas dan keamanan data p
                 >
                   <div className="text-center">
                     <span className="text-xs font-mono text-[#457B9D] uppercase tracking-wider block">
-                      Cloudinary Image Placeholder
+                      Cloudinary Image Asset
                     </span>
                     <span className="text-sm font-semibold text-[#1D3557] mt-1 block">{img.caption}</span>
                   </div>
@@ -128,11 +129,7 @@ Platform ini dibangun untuk menangani tantangan skalabilitas dan keamanan data p
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="py-8 px-4 text-center text-xs font-medium text-[#457B9D] border-t border-[#1D3557]/10">
-        <p>© {new Date().getFullYear()} Randy Fauzi. Built with React 19, NestJS, Prisma, Cloudinary & Neon.</p>
-      </footer>
+      <Footer />
     </div>
   )
 }
-

@@ -32,7 +32,7 @@ export function LoginPage() {
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <Link to="/" className="inline-block">
           <div className="h-12 w-12 rounded-2xl bg-[#1D3557] text-[#F1FAEE] flex items-center justify-center font-bold text-lg mx-auto shadow-md hover:bg-[#E63946] transition-colors">
-            RF
+            AR
           </div>
         </Link>
         <h2 className="mt-4 text-2xl font-extrabold text-[#1D3557]">Admin CMS Portal</h2>

@@ -11,8 +11,8 @@ export function DashboardPage() {
       {/* Admin Top Navigation */}
       <header className="bg-white border-b border-[#457B9D]/20 px-6 py-3 flex items-center justify-between sticky top-0 z-40">
         <div className="flex items-center gap-3">
-          <Link to="/" className="h-8 w-8 rounded-lg bg-[#1D3557] text-[#F1FAEE] flex items-center justify-center font-bold text-xs">
-            RF
+          <Link to="/" className="h-8 w-8 rounded-lg bg-[#1D3557] text-[#F1FAEE] flex items-center justify-center font-bold text-xs hover:bg-[#E63946] transition-colors">
+            AR
           </Link>
           <span className="font-bold text-sm text-[#1D3557]">Admin CMS Portal</span>
         </div>

@@ -17,6 +17,10 @@
   color-scheme: light;
 }
 
+html, body {
+  overflow-x: clip;
+}
+
 body {
   background-color: var(--color-brand-bg);
   color: var(--color-brand-primary);
@@ -30,3 +34,27 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+/* Hide OS cursor on desktop devices so custom cursor replaces it 1:1 */
+@media (pointer: fine) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: inline-flex;
+  width: max-content;
+  animation: marquee 26s linear infinite;
+}
+
+

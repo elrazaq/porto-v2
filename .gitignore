@@ -7,3 +7,15 @@ coverage/
 *.log
 
 *.tsbuildinfo
+
+# Plans & internal execution docs
+docs/plans/
+
+# Sensitive keys, secrets, and certificates
+*.pem
+*.key
+*.cert
+*.crt
+*.pfx
+*.p12
+credentials.json

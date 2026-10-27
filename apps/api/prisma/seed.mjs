@@ -3,8 +3,31 @@ if (!process.env.DATABASE_URL && typeof process.loadEnvFile === 'function') {
     process.loadEnvFile('.env');
   } catch {}
 }
+import { randomBytes, scrypt as scryptCallback } from 'node:crypto';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../dist/generated/prisma/client.js';
+
+const N = 1 << 15;
+const R = 8;
+const P = 1;
+const SALT_BYTES = 16;
+const KEY_BYTES = 64;
+const MAXMEM = 64 * 1024 * 1024;
+
+function derive(password, salt) {
+  return new Promise((resolve, reject) => {
+    scryptCallback(password, salt, KEY_BYTES, { N, r: R, p: P, maxmem: MAXMEM }, (error, key) => {
+      if (error) reject(error);
+      else resolve(key);
+    });
+  });
+}
+
+async function hashPassword(password) {
+  const salt = randomBytes(SALT_BYTES);
+  const key = await derive(password, salt);
+  return `scrypt-v1$${N}$${R}$${P}$${salt.toString('base64url')}$${key.toString('base64url')}`;
+}
 
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) throw new Error('DATABASE_URL is required to seed portfolio data');
@@ -222,6 +245,71 @@ try {
       });
     }
   }
+
+  console.log('Seeding default administrator accounts...');
+  const adminPasswordHash = await hashPassword('Admin#Razak2026!');
+
+  // Primary admin account
+  const primaryAdmin = await prisma.user.upsert({
+    where: { email: 'admin@elrazaq.dev' },
+    update: {
+      name: 'Abdul Razak, S.T.',
+      passwordHash: adminPasswordHash,
+      isActive: true,
+    },
+    create: {
+      email: 'admin@elrazaq.dev',
+      name: 'Abdul Razak, S.T.',
+      passwordHash: adminPasswordHash,
+      isActive: true,
+    },
+  });
+
+  await prisma.userRole.upsert({
+    where: {
+      userId_roleId: {
+        userId: primaryAdmin.id,
+        roleId: roles['admin'].id,
+      },
+    },
+    update: {},
+    create: {
+      userId: primaryAdmin.id,
+      roleId: roles['admin'].id,
+    },
+  });
+  console.log(`Primary admin ready: ${primaryAdmin.email} (Role: admin)`);
+
+  // Personal alias admin account
+  const personalAdmin = await prisma.user.upsert({
+    where: { email: 'elrazaq185@gmail.com' },
+    update: {
+      name: 'Abdul Razak, S.T.',
+      passwordHash: adminPasswordHash,
+      isActive: true,
+    },
+    create: {
+      email: 'elrazaq185@gmail.com',
+      name: 'Abdul Razak, S.T.',
+      passwordHash: adminPasswordHash,
+      isActive: true,
+    },
+  });
+
+  await prisma.userRole.upsert({
+    where: {
+      userId_roleId: {
+        userId: personalAdmin.id,
+        roleId: roles['admin'].id,
+      },
+    },
+    update: {},
+    create: {
+      userId: personalAdmin.id,
+      roleId: roles['admin'].id,
+    },
+  });
+  console.log(`Personal admin alias ready: ${personalAdmin.email} (Role: admin)`);
 
   console.log('Seeding portfolio projects and gallery images...');
   for (const projectData of projectsData) {

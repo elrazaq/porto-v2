@@ -2,6 +2,7 @@ import { Lock, LogIn, Mail, ArrowLeft } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
+import { AdminCursor } from '../../components/admin/AdminCursor'
 
 export function LoginPage() {
   const [email, setEmail] = useState('')
@@ -35,6 +36,8 @@ export function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[#F1FAEE] text-black flex flex-col justify-center items-center py-12 px-4 sm:px-6 lg:px-8 selection:bg-[#CCFF00] selection:text-black">
+      <AdminCursor />
+
       {/* Return to public site link */}
       <div className="w-full max-w-md mb-6 flex justify-start">
         <Link

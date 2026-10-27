@@ -2,6 +2,7 @@ import { ArrowLeft, Code, ExternalLink, Sparkles } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import { Badge } from '../components/Badge'
 import { Button } from '../components/Button'
+import { CustomCursor } from '../components/CustomCursor'
 import { Footer } from '../components/Footer'
 import { GithubIcon } from '../components/icons/GithubIcon'
 import { NavbarDock } from '../components/NavbarDock'
@@ -34,6 +35,7 @@ Aplikasi dirancang menggunakan arsitektur monorepo modern untuk memisahkan beban
 
   return (
     <div className="min-h-screen bg-[#F1FAEE] text-[#1D3557]">
+      <CustomCursor />
       <NavbarDock />
 
       <main className="pt-28 pb-20 px-4 sm:px-6 max-w-4xl mx-auto">

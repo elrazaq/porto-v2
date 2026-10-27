@@ -2,6 +2,7 @@ import { type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { LogOut, ArrowUpRight, FolderKanban, Briefcase, Wrench, Mail, ShieldCheck } from 'lucide-react'
 import { useAuth } from '../../hooks/useAuth'
+import { AdminCursor } from './AdminCursor'
 
 export type AdminTab = 'projects' | 'experiences' | 'skills' | 'inquiries'
 
@@ -29,6 +30,8 @@ export function AdminLayout({
 
   return (
     <div className="min-h-screen bg-[#F1FAEE] text-black selection:bg-[#CCFF00] selection:text-black">
+      <AdminCursor />
+
       {/* Top Brutalist Navigation Bar */}
       <header className="w-full bg-white border-b-2 border-black px-4 sm:px-8 py-3.5 sticky top-0 z-40 shadow-[0_2px_0px_0px_rgba(0,0,0,1)]">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">

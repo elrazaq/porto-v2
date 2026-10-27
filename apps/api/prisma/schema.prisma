@@ -71,3 +71,94 @@ model RefreshToken {
   @@index([userId, expiresAt])
   @@index([familyId])
 }
+
+// ==========================================
+// PORTFOLIO DOMAIN MODELS (M2)
+// ==========================================
+
+enum SkillCategory {
+  FRONTEND
+  BACKEND
+  DATABASE
+  DEVOPS_TOOLS
+  DESIGN_OTHER
+}
+
+model Project {
+  id                String         @id @default(cuid())
+  title             String
+  slug              String         @unique
+  summary           String
+  description       String         @db.Text
+  thumbnailUrl      String
+  thumbnailPublicId String?
+  repoUrl           String?
+  techStack         String[]
+  isFeatured        Boolean        @default(false)
+  isPublished       Boolean        @default(true)
+  sortOrder         Int            @default(0)
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  images            ProjectImage[]
+
+  @@index([isPublished, sortOrder])
+  @@index([slug])
+}
+
+model ProjectImage {
+  id        String   @id @default(cuid())
+  projectId String
+  url       String
+  publicId  String?
+  caption   String?
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId, sortOrder])
+}
+
+model Experience {
+  id           String    @id @default(cuid())
+  company      String
+  role         String
+  location     String?
+  startDate    DateTime
+  endDate      DateTime?
+  isCurrent    Boolean   @default(false)
+  description  String    @db.Text
+  technologies String[]
+  sortOrder    Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([sortOrder, startDate])
+}
+
+model Skill {
+  id           String        @id @default(cuid())
+  name         String
+  category     SkillCategory
+  iconUrl      String?
+  iconPublicId String?
+  proficiency  Int?
+  sortOrder    Int           @default(0)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([category, sortOrder])
+}
+
+model ContactInquiry {
+  id         String   @id @default(cuid())
+  name       String
+  email      String
+  subject    String?
+  message    String   @db.Text
+  isRead     Boolean  @default(false)
+  isArchived Boolean  @default(false)
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+
+  @@index([isRead, createdAt])
+}

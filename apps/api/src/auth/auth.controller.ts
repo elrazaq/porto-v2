@@ -62,30 +62,37 @@ export class AuthController {
 	}
 
 	private setCookies(response: Response, accessToken: string, refreshToken: string): void {
-		const secure = process.env.NODE_ENV === 'production';
+		const isProd = process.env.NODE_ENV === 'production';
+		const sameSite = (process.env.COOKIE_SAME_SITE as 'lax' | 'none' | 'strict') || (isProd ? 'none' : 'lax');
+		const secure = isProd || sameSite === 'none';
+
 		response.cookie(ACCESS_COOKIE, accessToken, {
 			httpOnly: true,
 			secure,
-			sameSite: 'lax',
+			sameSite,
 			path: '/',
 			maxAge: ACCESS_MAX_AGE,
 		});
 		response.cookie(REFRESH_COOKIE, refreshToken, {
 			httpOnly: true,
 			secure,
-			sameSite: 'lax',
-			path: '/auth',
+			sameSite,
+			path: '/',
 			maxAge: REFRESH_MAX_AGE,
 		});
 	}
 
 	private clearCookies(response: Response): void {
+		const isProd = process.env.NODE_ENV === 'production';
+		const sameSite = (process.env.COOKIE_SAME_SITE as 'lax' | 'none' | 'strict') || (isProd ? 'none' : 'lax');
+		const secure = isProd || sameSite === 'none';
 		const options = {
 			httpOnly: true,
-			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'lax' as const,
+			secure,
+			sameSite,
+			path: '/',
 		};
-		response.clearCookie(ACCESS_COOKIE, { ...options, path: '/' });
-		response.clearCookie(REFRESH_COOKIE, { ...options, path: '/auth' });
+		response.clearCookie(ACCESS_COOKIE, options);
+		response.clearCookie(REFRESH_COOKIE, options);
 	}
 }

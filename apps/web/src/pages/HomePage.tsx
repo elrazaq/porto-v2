@@ -7,7 +7,7 @@ import {
   Copy,
   FolderGit2,
 } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { apiClient } from '../lib/api-client'
 import { Link } from 'react-router-dom'
 import { AmbientBackground } from '../components/AmbientBackground'
@@ -89,6 +89,29 @@ export function HomePage() {
   const [inquirySubmitting, setInquirySubmitting] = useState(false)
   const [inquirySuccess, setInquirySuccess] = useState(false)
   const [inquiryError, setInquiryError] = useState<string | null>(null)
+  const [liveThumbnails, setLiveThumbnails] = useState<Record<string, string>>({})
+
+  useEffect(() => {
+    let isMounted = true
+    apiClient
+      .get<Array<{ slug: string; thumbnailUrl: string }>>('/projects')
+      .then((data) => {
+        if (!isMounted || !Array.isArray(data)) return
+        const map: Record<string, string> = {}
+        for (const p of data) {
+          if (p.slug && p.thumbnailUrl) {
+            map[p.slug] = p.thumbnailUrl
+          }
+        }
+        setLiveThumbnails(map)
+      })
+      .catch(() => {
+        // Fallback to static contentData gracefully
+      })
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   const c = contentData[lang]
   const isId = lang === 'id'
@@ -445,19 +468,21 @@ export function HomePage() {
 
           {/* 3-Column Brutalist Showcase Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {c.projects.items.map((proj) => (
+            {c.projects.items.map((proj) => {
+              const actualThumbnail = liveThumbnails[proj.slug] || proj.thumbnailUrl
+              return (
               <div
                 key={proj.id}
                 className="group relative flex flex-col text-left transition-all duration-300 p-4 bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1"
               >
                 {/* Visual Image Banner with Hover Slide-Up Reveal */}
                 <div className="relative aspect-[16/11] rounded-none overflow-hidden bg-[#121B24] border-2 border-black select-none">
-                  {/* Thumbnail Image or Fallback Graphic */}
-                  {proj.thumbnailUrl ? (
+                  {/* Thumbnail Image or Fallback Graphic (Auto-Grayscale) */}
+                  {actualThumbnail ? (
                     <img
-                      src={proj.thumbnailUrl}
+                      src={actualThumbnail}
                       alt={proj.title}
-                      className="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-300"
+                      className="w-full h-full object-cover filter grayscale contrast-125 brightness-95 group-hover:contrast-135 group-hover:scale-105 transition-all duration-300"
                       loading="lazy"
                     />
                   ) : (
@@ -538,7 +563,8 @@ export function HomePage() {
                   </span>
                 </div>
               </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>

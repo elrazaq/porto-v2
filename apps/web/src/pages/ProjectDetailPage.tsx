@@ -1,5 +1,5 @@
 import { useState, useEffect, type ReactNode } from 'react'
-import { ArrowLeft, Code, ExternalLink, Sparkles, X, ZoomIn, Loader2 } from 'lucide-react'
+import { Code, ExternalLink, Sparkles, X, ZoomIn, Loader2 } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import { CustomCursor } from '../components/CustomCursor'
 import { Footer } from '../components/Footer'
@@ -211,18 +211,15 @@ export function ProjectDetailPage() {
       <NavbarDock />
 
       <main className="pt-28 pb-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-left">
-        {/* Navigation Breadcrumb - Single Brutalist Modern Back Button */}
-        <div className="mb-8 flex items-center justify-between">
-          <Link
-            to="/#projects"
-            className="inline-flex items-center gap-2.5 font-mono text-xs font-black uppercase text-black bg-white hover:bg-[#CCFF00] px-4 py-2.5 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all cursor-pointer group"
-          >
-            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-            <span>KEMBALI KE PORTOFOLIO</span>
-          </Link>
+        {/* Architectural Specification Status Bar (Single Back Button in Header) */}
+        <div className="mb-6 flex items-center justify-between border-b-2 border-black/15 pb-3">
+          <div className="flex items-center gap-2 font-mono text-xs font-bold text-black uppercase">
+            <span className="w-2.5 h-2.5 bg-[#CCFF00] border border-black inline-block animate-pulse" />
+            <span>SISTEM_ARSITEKTUR // SPESIFIKASI_PROYEK</span>
+          </div>
 
           {project && (
-            <span className="font-mono text-xs font-black uppercase text-black/70 hidden sm:inline-block border border-black/30 bg-white px-3 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+            <span className="font-mono text-xs font-black uppercase text-black/70 border border-black/30 bg-white px-3 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
               PROYEK_ID: // {project.slug}
             </span>
           )}
@@ -332,7 +329,7 @@ export function ProjectDetailPage() {
                         <img
                           src={project.thumbnailUrl}
                           alt={project.title}
-                          className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-300"
+                          className="w-full h-full object-cover filter grayscale contrast-125 brightness-95 group-hover:scale-102 group-hover:contrast-135 transition-all duration-300"
                           loading="lazy"
                         />
                         <div className="absolute bottom-3 right-3 px-3 py-1.5 bg-black text-[#CCFF00] font-mono text-[10px] font-black uppercase border border-black flex items-center gap-1.5 shadow-[2px_2px_0px_#000]">
@@ -358,7 +355,7 @@ export function ProjectDetailPage() {
                         <img
                           src={img.url}
                           alt={img.caption || `Gallery ${idx + 1}`}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          className="w-full h-full object-cover filter grayscale contrast-125 brightness-95 group-hover:scale-105 group-hover:contrast-135 transition-all duration-300"
                           loading="lazy"
                         />
                         <div className="absolute bottom-2 right-2 p-1 bg-black text-[#CCFF00] border border-black shadow-[1px_1px_0px_#000]">

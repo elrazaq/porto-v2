@@ -200,7 +200,7 @@ export const contentData: Record<Language, PortfolioContent> = {
           impact: 'Mengurangi waktu administrasi dokter hingga 40% dan meniadakan penumpukan rekam medis manual.',
           techStack: ['React.js', 'REST APIs', 'PostgreSQL', 'AI/NLP', 'Linux'],
           repoUrl: 'https://github.com/elrazaq',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=1200&q=80',
+          thumbnailUrl: 'https://res.cloudinary.com/surgflvc/image/upload/v1793152850/portfolio/projects/hthlue6vd5ctn3icrgug.png',
           isFeatured: true,
         },
         {
@@ -213,7 +213,7 @@ export const contentData: Record<Language, PortfolioContent> = {
           impact: 'Melayani lebih dari 10.000 pendaftar dengan 100% uptime saat lonjakan pengumuman hasil.',
           techStack: ['Next.js', 'React.js', 'Document Pipeline', 'Linux', 'PostgreSQL'],
           repoUrl: 'https://github.com/elrazaq',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80',
+          thumbnailUrl: 'https://res.cloudinary.com/surgflvc/image/upload/v1793155171/portfolio/projects/posxapgo8wx1ffp1urxp.png',
           isFeatured: true,
         },
         {
@@ -357,7 +357,7 @@ export const contentData: Record<Language, PortfolioContent> = {
           impact: 'Cut physician clinical charting time by 40% and eradicated manual record backlogs.',
           techStack: ['React.js', 'REST APIs', 'PostgreSQL', 'AI/NLP', 'Linux'],
           repoUrl: 'https://github.com/elrazaq',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=1200&q=80',
+          thumbnailUrl: 'https://res.cloudinary.com/surgflvc/image/upload/v1793152850/portfolio/projects/hthlue6vd5ctn3icrgug.png',
           isFeatured: true,
         },
         {
@@ -370,7 +370,7 @@ export const contentData: Record<Language, PortfolioContent> = {
           impact: 'Processed over 10,000 student applicants with 100% server availability during announcement surges.',
           techStack: ['Next.js', 'React.js', 'Document Pipeline', 'Linux', 'PostgreSQL'],
           repoUrl: 'https://github.com/elrazaq',
-          thumbnailUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80',
+          thumbnailUrl: 'https://res.cloudinary.com/surgflvc/image/upload/v1793155171/portfolio/projects/posxapgo8wx1ffp1urxp.png',
           isFeatured: true,
         },
         {

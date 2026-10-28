@@ -107,10 +107,10 @@ export function NavbarDock({
         ) : (
           <Link
             to="/#projects"
-            className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#457B9D] hover:text-[#1D3557] transition-colors"
+            className="inline-flex items-center gap-2 font-mono text-xs font-black uppercase text-black bg-white hover:bg-[#CCFF00] px-4 py-2 border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all cursor-pointer group"
           >
-            <ArrowLeft className="h-4 w-4" />
-            <span>Kembali ke Portofolio</span>
+            <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-1" />
+            <span>KEMBALI KE PORTOFOLIO</span>
           </Link>
         )}
 

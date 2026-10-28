@@ -6,10 +6,12 @@ export interface ProjectItem {
   slug: string
   category: string
   summary: string
+  description?: string
   impact: string
   techStack: string[]
   repoUrl: string
   thumbnailUrl?: string
+  images?: { id: string; url: string; caption?: string }[]
   isFeatured?: boolean
 }
 
@@ -201,6 +203,11 @@ export const contentData: Record<Language, PortfolioContent> = {
           techStack: ['React.js', 'REST APIs', 'PostgreSQL', 'AI/NLP', 'Linux'],
           repoUrl: 'https://github.com/elrazaq',
           thumbnailUrl: 'https://res.cloudinary.com/surgflvc/image/upload/v1793152850/portfolio/projects/hthlue6vd5ctn3icrgug.png',
+          images: [
+            { id: 'simrs-1', url: 'https://res.cloudinary.com/surgflvc/image/upload/v1793152907/portfolio/projects/gallery/lqjy0eoxelk9qggkjepq.png', caption: 'Antarmuka Utama SIMRS & Modul Asisten Klinis AI' },
+            { id: 'simrs-2', url: 'https://res.cloudinary.com/surgflvc/image/upload/v1793152908/portfolio/projects/gallery/fotntgvnhkqjgm6zgvdg.png', caption: 'Dashboard Rawat Inap & Bridging BPJS VClaim' },
+            { id: 'simrs-3', url: 'https://res.cloudinary.com/surgflvc/image/upload/v1793152916/portfolio/projects/gallery/p725jxia504dlsar7pz4.png', caption: 'Integrasi Laboratorium LIS & Radiologi PACS' }
+          ],
           isFeatured: true,
         },
         {
@@ -214,6 +221,9 @@ export const contentData: Record<Language, PortfolioContent> = {
           techStack: ['Next.js', 'React.js', 'Document Pipeline', 'Linux', 'PostgreSQL'],
           repoUrl: 'https://github.com/elrazaq',
           thumbnailUrl: 'https://res.cloudinary.com/surgflvc/image/upload/v1793155171/portfolio/projects/posxapgo8wx1ffp1urxp.png',
+          images: [
+            { id: 'beasiswa-1', url: 'https://res.cloudinary.com/surgflvc/image/upload/v1793155171/portfolio/projects/posxapgo8wx1ffp1urxp.png', caption: 'Portal Pendaftaran & Verifikasi Dokumen Beasiswa Kepri' }
+          ],
           isFeatured: true,
         },
         {
@@ -227,6 +237,9 @@ export const contentData: Record<Language, PortfolioContent> = {
           techStack: ['PHP', 'MySQL', 'Windows Server', 'Audit Workflow'],
           repoUrl: 'https://github.com/elrazaq',
           thumbnailUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80',
+          images: [
+            { id: 'sp2d-1', url: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80', caption: 'Tracking SP2D Real-time Antar OPD BKAD Bintan' }
+          ],
         },
       ],
     },
@@ -358,6 +371,11 @@ export const contentData: Record<Language, PortfolioContent> = {
           techStack: ['React.js', 'REST APIs', 'PostgreSQL', 'AI/NLP', 'Linux'],
           repoUrl: 'https://github.com/elrazaq',
           thumbnailUrl: 'https://res.cloudinary.com/surgflvc/image/upload/v1793152850/portfolio/projects/hthlue6vd5ctn3icrgug.png',
+          images: [
+            { id: 'simrs-1', url: 'https://res.cloudinary.com/surgflvc/image/upload/v1793152907/portfolio/projects/gallery/lqjy0eoxelk9qggkjepq.png', caption: 'Antarmuka Utama SIMRS & Modul Asisten Klinis AI' },
+            { id: 'simrs-2', url: 'https://res.cloudinary.com/surgflvc/image/upload/v1793152908/portfolio/projects/gallery/fotntgvnhkqjgm6zgvdg.png', caption: 'Dashboard Rawat Inap & Bridging BPJS VClaim' },
+            { id: 'simrs-3', url: 'https://res.cloudinary.com/surgflvc/image/upload/v1793152916/portfolio/projects/gallery/p725jxia504dlsar7pz4.png', caption: 'Integrasi Laboratorium LIS & Radiologi PACS' }
+          ],
           isFeatured: true,
         },
         {
@@ -371,6 +389,9 @@ export const contentData: Record<Language, PortfolioContent> = {
           techStack: ['Next.js', 'React.js', 'Document Pipeline', 'Linux', 'PostgreSQL'],
           repoUrl: 'https://github.com/elrazaq',
           thumbnailUrl: 'https://res.cloudinary.com/surgflvc/image/upload/v1793155171/portfolio/projects/posxapgo8wx1ffp1urxp.png',
+          images: [
+            { id: 'beasiswa-1', url: 'https://res.cloudinary.com/surgflvc/image/upload/v1793155171/portfolio/projects/posxapgo8wx1ffp1urxp.png', caption: 'Portal Pendaftaran & Verifikasi Dokumen Beasiswa Kepri' }
+          ],
           isFeatured: true,
         },
         {
@@ -384,6 +405,9 @@ export const contentData: Record<Language, PortfolioContent> = {
           techStack: ['PHP', 'MySQL', 'Windows Server', 'Audit Workflow'],
           repoUrl: 'https://github.com/elrazaq',
           thumbnailUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80',
+          images: [
+            { id: 'sp2d-1', url: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80', caption: 'Tracking SP2D Real-time Antar OPD BKAD Bintan' }
+          ],
         },
       ],
     },

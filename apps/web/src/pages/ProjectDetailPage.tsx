@@ -176,11 +176,11 @@ export function ProjectDetailPage() {
             slug: localFound.slug,
             summary: localFound.summary,
             description: `## Analisis Arsitektur & Rekayasa Solusi\n\n${localFound.summary}\n\n### Dampak & Hasil Produksi:\n${localFound.impact}\n\n### Fokus Rekayasa Utama:\n- Standardisasi arsitektur performa tinggi dan interoperabilitas sistem.\n- Pipeline pengolahan data terdistribusi dengan keandalan maksimal.\n- Pemodelan basis data relasional bersih dengan proteksi transaksi.`,
-            thumbnailUrl: '/profile.jpg',
+            thumbnailUrl: localFound.thumbnailUrl || '/profile.jpg',
             repoUrl: localFound.repoUrl,
             techStack: localFound.techStack,
             isFeatured: localFound.isFeatured,
-            images: [],
+            images: localFound.images || [],
           })
         } else if (isMounted) {
           setError(err instanceof Error ? err.message : 'Gagal memuat detail proyek.')

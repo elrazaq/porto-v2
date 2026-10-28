@@ -1,26 +1,14 @@
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
-import { ExpressAdapter } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
 import cookieParser from 'cookie-parser';
-import express, { type Express } from 'express';
 import { AppModule } from './app.module.js';
 
-let cachedServer: Express | null = null;
+let cachedHandler: any = null;
 
-export async function bootstrapServerless(): Promise<Express> {
-  if (!cachedServer) {
-    const server = express();
-
-    // Ensure requests route properly to the global /api prefix
-    server.use((req, _res, next) => {
-      if (!req.url.startsWith('/api')) {
-        req.url = '/api' + (req.url.startsWith('/') ? req.url : '/' + req.url);
-      }
-      next();
-    });
-
-    const app = await NestFactory.create(AppModule, new ExpressAdapter(server), {
+export async function bootstrapServerless() {
+  if (!cachedHandler) {
+    const app = await NestFactory.create(AppModule, {
       logger: ['error', 'warn'],
     });
 
@@ -40,8 +28,7 @@ export async function bootstrapServerless(): Promise<Express> {
     );
 
     await app.init();
-    cachedServer = server;
+    cachedHandler = app.getHttpAdapter().getInstance();
   }
-  return cachedServer;
+  return cachedHandler;
 }
-

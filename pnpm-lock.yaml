@@ -107,7 +107,53 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    dependencies:
+      '@nestjs/common':
+        specifier: ^12.0.1
+        version: 12.2.0
+      '@nestjs/config':
+        specifier: 12.0.1
+        version: 12.0.1
+      '@nestjs/core':
+        specifier: ^12.0.1
+        version: 12.2.0
+      '@nestjs/jwt':
+        specifier: 12.0.3
+        version: 12.0.3
+      '@nestjs/platform-express':
+        specifier: ^12.0.1
+        version: 12.2.0
+      '@prisma/adapter-pg':
+        specifier: 7.10.1
+        version: 7.10.1
+      '@prisma/client':
+        specifier: 7.10.1
+        version: 7.10.1
+      class-transformer:
+        specifier: 0.5.1
+        version: 0.5.1
+      class-validator:
+        specifier: 0.15.1
+        version: 0.15.1
+      cloudinary:
+        specifier: ^2.11.0
+        version: 2.11.0
+      cookie-parser:
+        specifier: 1.4.7
+        version: 1.4.7
+      express:
+        specifier: ^5.3.0
+        version: 5.3.0
+      pg:
+        specifier: ^8.23.1
+        version: 8.23.1
+      reflect-metadata:
+        specifier: ^0.2.2
+        version: 0.2.2
+      rxjs:
+        specifier: ^7.8.1
+        version: 7.8.2
 
   apps/api:
     dependencies:
@@ -144,6 +190,9 @@ importers:
       cookie-parser:
         specifier: 1.4.7
         version: 1.4.7
+      express:
+        specifier: ^5.3.0
+        version: 5.3.0
       pg:
         specifier: ^8.23.1
         version: 8.23.1

@@ -53,23 +53,23 @@ const permissionDefinitions = [
 
 const projectsData = [
   {
-    title: 'RS Bintan Health Ecosystem & SIMRS Cloud',
-    slug: 'simrs-bintan-cloud',
+    title: 'SIMRS Modernization & AI Medical Record Assistant',
+    slug: 'simrs-ai-bintan',
     summary:
-      'Enterprise Cloud-Native Hospital Information System with FHIR compliance, BPJS API bridging, and real-time electronic medical records.',
-    description: `## Enterprise Hospital Management & Clinical Integration
+      'Modernisasi ekosistem SIMRS RSUD Bintan berbasis React.js dengan integrasi AI pembuat draf catatan medis S.O.A.P.I.E otomatis dan bridging penuh BPJS VClaim, LIS, & PACS.',
+    description: `## Modernisasi Ekosistem SIMRS & Asisten Klinis AI
 
-Platform sistem informasi manajemen rumah sakit (SIMRS) berbasis cloud yang dirancang untuk fasilitas kesehatan skala menengah hingga besar di Kepulauan Riau. Sistem ini mengintegrasikan seluruh alur layanan mulai dari registrasi rawat jalan/inap, farmasi, laboratorium, hingga bridging otomatis ke BPJS Kesehatan (VClaim & Antrean Online).
+Platform sistem informasi manajemen rumah sakit (SIMRS) RSUD Kabupaten Bintan yang dimodernisasi dari sistem legacy Java menjadi platform web modern responsif berbasis React.js.
 
 ### Fitur Utama:
-- **Zero-Downtime BPJS Bridging**: Sinkronisasi data kepesertaan, SEP, rujukan, dan update ketersediaan tempat tidur secara real-time.
-- **Standarisasi Rekam Medis Elektronik (RME) FHIR**: Interoperabilitas data medis pasien sesuai standar Kementerian Kesehatan SATUSEHAT.
-- **Antrean Poliklinik & Display Farmasi**: Display monitor real-time dengan WebSockets dan notifikasi suara terotomasi.
-- **Arsitektur High-Availability**: Backend NestJS modular dengan caching Redis dan database PostgreSQL terisolasi per tenant.`,
+- **AI Medical Assistant**: Integrasi model AI lokal terlatih untuk generate otomatis draf resume medis klinis format S.O.A.P.I.E bagi dokter poliklinik dan rawat inap.
+- **Bridging Penuh BPJS Kesehatan**: Integrasi real-time Web Service VClaim 2.0 dan Antrean Online BPJS Kesehatan dengan penanganan failover otomatis.
+- **Interoperabilitas LIS & PACS**: Integrasi otomatis mesin laboratorium darah dan sistem pengarsipan citra radiologi digital PACS.
+- **High-Availability Database Server**: Arsitektur server Linux bare-metal dengan replikasi PostgreSQL dan backup berkala terenkripsi 24/7.`,
     thumbnailUrl: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=1200&q=80',
     thumbnailPublicId: 'portfolio/projects/simrs-thumb',
-    repoUrl: 'https://github.com/elrazaq/simrs-cloud-core',
-    techStack: ['Next.js', 'TypeScript', 'NestJS', 'PostgreSQL', 'Prisma', 'Docker', 'Redis'],
+    repoUrl: 'https://github.com/elrazaq',
+    techStack: ['React.js', 'REST APIs', 'PostgreSQL', 'AI/NLP', 'Linux'],
     isFeatured: true,
     isPublished: true,
     sortOrder: 1,
@@ -77,77 +77,77 @@ Platform sistem informasi manajemen rumah sakit (SIMRS) berbasis cloud yang dira
       {
         url: 'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1200&q=80',
         publicId: 'portfolio/projects/simrs-gallery-1',
-        caption: 'Real-Time Clinical Analytics & Telemedicine Dashboard',
+        caption: 'Dashboard Rawat Jalan & Monitoring Antrean Poliklinik',
         sortOrder: 1,
       },
       {
         url: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80',
         publicId: 'portfolio/projects/simrs-gallery-2',
-        caption: 'Electronic Medical Record (EMR) & FHIR Interoperability Module',
+        caption: 'Modul Rekam Medis S.O.A.P.I.E & Asisten AI Klinis',
         sortOrder: 2,
       },
     ],
   },
   {
-    title: 'LogiFlow — Enterprise Maritime Logistics & Telematics',
-    slug: 'logiflow-telematics',
+    title: 'Portal Beasiswa Terpadu Provinsi Kepulauan Riau',
+    slug: 'beasiswa-kepri',
     summary:
-      'Real-time maritime cargo tracking and fleet management system across Indonesian archipelagic waters.',
-    description: `## Archipelago Supply Chain & Vessel Telematics
+      'Platform penerimaan beasiswa berbasis Next.js yang menangani pendaftaran, upload ribuan dokumen digital, dan tracking seleksi transparan mahasiswa se-Kepri selama 5 tahun.',
+    description: `## Platform Seleksi Beasiswa Mahasiswa Provinsi Kepri
 
-Sistem manajemen logistik dan pelacakan kargo maritim terdistribusi untuk armada kapal kargo antar-pulau. Dilengkapi aplikasi mobile offline-first bagi nakhoda kapal untuk pencatatan manifest kargo di area minim sinyal.
+Sistem informasi terintegrasi bagi Biro Kesejahteraan Rakyat (Kesra) Sekretariat Daerah Provinsi Kepulauan Riau untuk mendigitalkan seluruh tahapan seleksi beasiswa mahasiswa berprestasi dan kurang mampu di seluruh wilayah kepulauan.
 
 ### Fitur Utama:
-- **Offline-First Synchronization**: Penyimpanan lokal di perangkat mobile dengan auto-sync saat kapal kembali menjangkau jaringan seluler/satelit.
-- **Live Vessel Telemetry**: Pelacakan posisi kapal, efisiensi bahan bakar, dan estimasi waktu sandar (*ETA*) berbasis WebSockets dan geospatial GIS.
-- **Automated Digital Waybill**: Tanda tangan digital penerimaan barang dan audit trail manifes kapal tamper-proof.`,
-    thumbnailUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80',
-    thumbnailPublicId: 'portfolio/projects/logiflow-thumb',
-    repoUrl: 'https://github.com/elrazaq/logiflow-telematics',
-    techStack: ['Vue 3', 'Nuxt.js', 'Flutter', 'Dart', 'Node.js', 'PostgreSQL', 'WebSockets'],
+- **High-Concurrency Document Pipeline**: Penanganan upload ribuan dokumen digital (KTP, KRS, Transkrip, Surat Keterangan) tanpa kertas (*paperless*).
+- **Automated Verification Engine**: Sistem scoring dan validasi berkas otomatis sesuai kuota kabupaten/kota dan kriteria jenjang D3/S1/S2.
+- **Live Status Tracking**: Portal transparansi bagi pendaftar untuk melacak status verifikasi berkas secara real-time dari pendaftaran hingga pengumuman penerima beasiswa.`,
+    thumbnailUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80',
+    thumbnailPublicId: 'portfolio/projects/beasiswa-thumb',
+    repoUrl: 'https://github.com/elrazaq',
+    techStack: ['Next.js', 'React.js', 'Document Pipeline', 'Linux', 'PostgreSQL'],
     isFeatured: true,
     isPublished: true,
     sortOrder: 2,
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=1200&q=80',
-        publicId: 'portfolio/projects/logiflow-gallery-1',
-        caption: 'Fleet Route Optimization & Port Congestion Heatmap',
+        url: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1200&q=80',
+        publicId: 'portfolio/projects/beasiswa-gallery-1',
+        caption: 'Portal Pendaftaran & Formulir Berkas Mahasiswa',
         sortOrder: 1,
       },
       {
-        url: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80',
-        publicId: 'portfolio/projects/logiflow-gallery-2',
-        caption: 'Mobile Vessel Telemetry & Offline Cargo Manifest App',
+        url: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80',
+        publicId: 'portfolio/projects/beasiswa-gallery-2',
+        caption: 'Konsol Verifikasi Tim Penilai Biro Kesra Kepri',
         sortOrder: 2,
       },
     ],
   },
   {
-    title: 'KepriMart — Regional Omnichannel E-Commerce & POS',
-    slug: 'keprimart-omnichannel',
+    title: 'Sistem Tracking & Manajemen SP2D Satu Pintu',
+    slug: 'sp2d-satu-pintu-bkad',
     summary:
-      'High-concurrency retail commerce platform with automated payment reconciliation and localized inventory management.',
-    description: `## Multi-Merchant Regional Retail Platform
+      'Aplikasi pelacakan pencairan dana Surat Perintah Pencairan Dana (SP2D) terpusat untuk seluruh OPD di Kabupaten Bintan, menggantikan alur berkas manual berhari-hari menjadi real-time.',
+    description: `## Otomasi Alur Verifikasi Surat Perintah Pencairan Dana
 
-Platform omnichannel terintegrasi yang menghubungkan toko fisik dengan kanal online bagi puluhan pedagang retail di Kepulauan Riau. Menangani lonjakan transaksi secara andal dengan arsitektur event-driven.
+Aplikasi manajemen workflow pencairan kas daerah yang dikembangkan untuk Badan Keuangan dan Aset Daerah (BKAD) Kabupaten Bintan guna mempercepat penerbitan SP2D bagi seluruh Organisasi Perangkat Daerah (OPD).
 
 ### Fitur Utama:
-- **Unified Inventory**: Sinkronisasi stok terpusat antara mesin Point of Sale (POS) di gerai dan toko online web/mobile.
-- **Instant Payment Gateway Reconciliation**: Verifikasi otomatis transaksi QRIS, Virtual Account, dan kartu debit tanpa delay.
-- **Sub-Second Search**: Pencarian katalog produk ribuan SKU berbasis fuzzy search dan database indexing.`,
-    thumbnailUrl: 'https://images.unsplash.com/photo-1556742049-0a67e557224f?auto=format&fit=crop&w=1200&q=80',
-    thumbnailPublicId: 'portfolio/projects/keprimart-thumb',
-    repoUrl: 'https://github.com/elrazaq/keprimart-omnichannel',
-    techStack: ['React 19', 'Vite', 'Tailwind CSS', 'NestJS', 'PostgreSQL', 'Prisma'],
-    isFeatured: true,
+- **Barcode & Tracking Satu Pintu**: Setiap berkas SPM yang masuk diberi nomor tracking unik dengan barcode untuk pemantauan posisi berkas di meja verifikator, perbendaharaan, hingga otorisasi BUD.
+- **Audit Trail & SLA Monitoring**: Pencatatan durasi proses di tiap meja untuk memastikan kepatuhan Standar Pelayanan Minimal.
+- **Rekonsiliasi Kas Daerah**: Integrasi laporan harian pengeluaran kas daerah untuk kelengkapan audit BPK.`,
+    thumbnailUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80',
+    thumbnailPublicId: 'portfolio/projects/sp2d-thumb',
+    repoUrl: 'https://github.com/elrazaq',
+    techStack: ['PHP', 'MySQL', 'Windows Server', 'Audit Workflow'],
+    isFeatured: false,
     isPublished: true,
     sortOrder: 3,
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&w=1200&q=80',
-        publicId: 'portfolio/projects/keprimart-gallery-1',
-        caption: 'Merchant Administration Console & POS Hardware Bridge',
+        url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+        publicId: 'portfolio/projects/sp2d-gallery-1',
+        caption: 'Dashboard Tracking SP2D Real-Time OPD Bintan',
         sortOrder: 1,
       },
     ],
@@ -156,39 +156,39 @@ Platform omnichannel terintegrasi yang menghubungkan toko fisik dengan kanal onl
 
 const experiencesData = [
   {
-    company: 'PT Solusi Digital Nusantara',
-    role: 'Lead Full-Stack Web & Mobile Engineer',
-    location: 'Bintan / Batam (Hybrid)',
-    startDate: new Date('2022-01-01'),
+    company: 'RSUD Kabupaten Bintan',
+    role: 'Technical IT Support & Software Engineer',
+    location: 'Kab. Bintan, Kepri',
+    startDate: new Date('2021-03-01'),
     endDate: null,
     isCurrent: true,
     description:
-      'Memimpin rekayasa sistem enterprise terdistribusi, memandu tim engineering, merancang arsitektur microservices performa tinggi, dan mengimplementasikan CI/CD pipelines otomatis.',
-    technologies: ['React 19', 'Next.js', 'NestJS', 'Flutter', 'PostgreSQL', 'Docker', 'Redis'],
+      'Memodernisasi sistem SIMRS dari Java ke aplikasi web modern React.js dan melatih asisten AI lokal untuk auto-generate catatan klinis S.O.A.P.I.E bagi para dokter. Integrasi penuh (bridging API) dengan Web Service BPJS Kesehatan (VClaim & Antrean), LIS Laboratorium otomatis, dan PACS Radiologi digital. Membangun server database Linux dari nol dengan optimasi query transaksi medis serta sistem backup otomatis 24/7.',
+    technologies: ['React.js', 'PHP/Laravel', 'REST APIs', 'PostgreSQL', 'Linux Server', 'AI Integration'],
     sortOrder: 1,
   },
   {
-    company: 'Global Telematics Indonesia',
-    role: 'Senior Full-Stack Developer',
-    location: 'Remote',
-    startDate: new Date('2020-03-01'),
-    endDate: new Date('2021-12-31'),
+    company: 'Biro Kesra Provinsi Kepulauan Riau',
+    role: 'Tenaga Ahli IT (Kontrak)',
+    location: 'Provinsi Kepulauan Riau',
+    startDate: new Date('2020-01-01'),
+    endDate: new Date('2025-12-31'),
     isCurrent: false,
     description:
-      'Mengembangkan sistem pelacakan IoT maritim real-time, dashboard analitik berbasis WebSockets, dan aplikasi mobile Flutter dengan arsitektur offline-first.',
-    technologies: ['Vue 3', 'Nuxt.js', 'Node.js', 'Flutter', 'PostgreSQL', 'WebSockets'],
+      'Merancang dan membangun Portal Penerimaan Beasiswa Provinsi Kepri berbasis Next.js yang melayani ribuan mahasiswa kepulauan selama 5 tahun berturut-turut. Mengembangkan pipeline upload dan verifikasi berkas digital tanpa dokumen fisik dengan penanganan lonjakan trafik tinggi (high concurrency). Fitur pelacakan seleksi real-time dari pendaftaran hingga pengumuman penerima beasiswa secara transparan.',
+    technologies: ['Next.js', 'React.js', 'Linux Server', 'Document Ingestion', 'PostgreSQL'],
     sortOrder: 2,
   },
   {
-    company: 'Riau Health Tech Labs',
-    role: 'Software Engineer',
-    location: 'Tanjungpinang, Kepulauan Riau',
-    startDate: new Date('2018-07-01'),
-    endDate: new Date('2020-02-28'),
+    company: 'Badan Keuangan dan Aset Daerah (BKAD) Kab. Bintan',
+    role: 'Full-Stack Developer',
+    location: 'Kab. Bintan, Kepri',
+    startDate: new Date('2019-01-01'),
+    endDate: new Date('2021-03-01'),
     isCurrent: false,
     description:
-      'Membangun modul SIMRS, bridging data asuransi BPJS, dan integrasi standar rekam medis rumah sakit regional.',
-    technologies: ['PHP', 'Laravel', 'JavaScript', 'MySQL', 'RESTful API'],
+      'Membangun Sistem Pelacakan SP2D Satu Pintu untuk menggantikan proses manual verifikasi pencairan dana kas daerah seluruh OPD. Aplikasi pencatatan dan rekonsiliasi anggaran operasional kas daerah internal untuk kesiapan audit BPK. Administrasi Windows Server produksi untuk kelancaran operasional keuangan antar-bidang.',
+    technologies: ['PHP', 'MySQL', 'Windows Server', 'Financial Systems'],
     sortOrder: 3,
   },
 ];
@@ -310,6 +310,15 @@ try {
     },
   });
   console.log(`Personal admin alias ready: ${personalAdmin.email} (Role: admin)`);
+
+  // Clean up legacy mockup projects & experiences if present
+  console.log('Cleaning up legacy mockup entries...');
+  await prisma.project.deleteMany({
+    where: { slug: { in: ['simrs-bintan-cloud', 'logiflow-telematics', 'keprimart-omnichannel'] } },
+  });
+  await prisma.experience.deleteMany({
+    where: { company: { in: ['PT Solusi Digital Nusantara', 'Global Telematics Indonesia', 'Riau Health Tech Labs'] } },
+  });
 
   console.log('Seeding portfolio projects and gallery images...');
   for (const projectData of projectsData) {

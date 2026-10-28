@@ -68,10 +68,16 @@ export function SkillsManager() {
   }
 
   const handleSubmit = async (skillData: SkillData) => {
+    // Sanitize metadata fields
+    const { id: _id, createdAt: _createdAt, updatedAt: _updatedAt, ...cleanSkill } = skillData as any
+    if (!cleanSkill.iconUrl || cleanSkill.iconUrl.trim() === '') {
+      cleanSkill.iconUrl = null
+    }
+
     if (selectedSkill?.id) {
-      await apiClient.patch(`/skills/${selectedSkill.id}`, skillData)
+      await apiClient.patch(`/skills/${selectedSkill.id}`, cleanSkill)
     } else {
-      await apiClient.post('/skills', skillData)
+      await apiClient.post('/skills', cleanSkill)
     }
     await fetchSkills()
   }

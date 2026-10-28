@@ -43,6 +43,13 @@ export class MediaController {
     return this.mediaService.uploadGallery(files, folder);
   }
 
+  @Delete()
+  @RequirePermissions('media:upload')
+  @HttpCode(HttpStatus.OK)
+  async removeByQuery(@Query('publicId') publicId: string) {
+    return this.mediaService.remove(publicId);
+  }
+
   @Delete(':publicId')
   @RequirePermissions('media:upload')
   @HttpCode(HttpStatus.OK)

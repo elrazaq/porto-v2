@@ -217,6 +217,28 @@ export function ProjectDetailPage() {
             <span className="w-2.5 h-2.5 bg-[#CCFF00] border border-black inline-block animate-pulse" />
             <span>SISTEM_ARSITEKTUR // SPESIFIKASI_PROYEK</span>
           </div>
+        ) : (
+          /* Main Project Detail Content */
+          <>
+            {/* Top Specification Card - Brutalist Modern */}
+            <div className="bg-white border-2 border-black p-6 sm:p-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mb-8">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b-2 border-black">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="w-2.5 h-2.5 bg-[#CCFF00] border border-black inline-block" />
+                    <span className="font-mono text-xs font-black text-black/70 tracking-widest uppercase">
+                      SYSTEM SPECIFICATION // SHOWCASE_DETAIL
+                    </span>
+                    {project.isFeatured && (
+                      <span className="px-2 py-0.5 bg-[#E63946] text-white font-mono text-[9px] font-black uppercase border border-black shadow-[1px_1px_0px_#000]">
+                        Featured
+                      </span>
+                    )}
+                  </div>
+                  <h1 className="text-3xl sm:text-5xl font-black text-black tracking-tight leading-none uppercase">
+                    {project.title}
+                  </h1>
+                </div>
 
           {project && (
             <span className="font-mono text-xs font-black uppercase text-black/70 border border-black/30 bg-white px-3 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">

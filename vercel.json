@@ -1,7 +1,11 @@
 {
-  "buildCommand": "pnpm --filter web build",
+  "buildCommand": "pnpm --filter api build && pnpm --filter web build",
   "outputDirectory": "apps/web/dist",
   "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api"
+    },
     {
       "source": "/(.*)",
       "destination": "/"
@@ -18,4 +22,3 @@
     }
   ]
 }
-

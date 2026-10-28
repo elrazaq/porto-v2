@@ -52,10 +52,16 @@ export function ExperiencesManager() {
   }
 
   const handleSubmit = async (expData: ExperienceData) => {
+    // Sanitize metadata fields
+    const { id: _id, createdAt: _createdAt, updatedAt: _updatedAt, ...cleanExp } = expData as any
+    if (cleanExp.isCurrent || !cleanExp.endDate) {
+      cleanExp.endDate = null
+    }
+
     if (selectedExp?.id) {
-      await apiClient.patch(`/experiences/${selectedExp.id}`, expData)
+      await apiClient.patch(`/experiences/${selectedExp.id}`, cleanExp)
     } else {
-      await apiClient.post('/experiences', expData)
+      await apiClient.post('/experiences', cleanExp)
     }
     await fetchExperiences()
   }

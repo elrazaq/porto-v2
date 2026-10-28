@@ -1,5 +1,6 @@
 import { useState, useEffect, type FormEvent } from 'react'
 import { X, Save, AlertCircle } from 'lucide-react'
+import { apiClient } from '../../lib/api-client'
 import { CloudinaryUploader, type UploadedMediaItem } from './CloudinaryUploader'
 
 export interface ProjectData {
@@ -268,7 +269,15 @@ export function ProjectFormModal({
               label="GALERI FOTO DETAIL PROYEK (/projects/:slug)"
               galleryItems={gallery}
               onGallerySuccess={(items) => setGallery(items)}
-              onRemoveGalleryItem={(index) => {
+              onRemoveGalleryItem={async (index) => {
+                const item = gallery[index] as any
+                if (item?.id) {
+                  try {
+                    await apiClient.delete(`/projects/images/${item.id}`)
+                  } catch (err) {
+                    console.warn('Gagal menghapus gambar proyek dari database:', err)
+                  }
+                }
                 setGallery((prev) => prev.filter((_, i) => i !== index))
               }}
             />

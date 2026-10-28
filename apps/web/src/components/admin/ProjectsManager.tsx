@@ -56,9 +56,26 @@ export function ProjectsManager() {
   }
 
   const handleSubmit = async (projectData: ProjectData, galleryItems: UploadedMediaItem[]) => {
+    // Sanitize payload: strip system metadata and empty strings (Ponytail: lean & robust)
+    const {
+      id: _id,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+      images: _images,
+      ...rawClean
+    } = projectData as any
+
+    const cleanPayload = { ...rawClean }
+    if (!cleanPayload.repoUrl || cleanPayload.repoUrl.trim() === '') {
+      delete cleanPayload.repoUrl
+    }
+    if (!cleanPayload.thumbnailPublicId || cleanPayload.thumbnailPublicId.trim() === '') {
+      delete cleanPayload.thumbnailPublicId
+    }
+
     if (selectedProject?.id) {
       // Update existing project
-      await apiClient.patch(`/projects/${selectedProject.id}`, projectData)
+      await apiClient.patch(`/projects/${selectedProject.id}`, cleanPayload)
 
       // Sync gallery images: add any new ones
       for (const item of galleryItems) {
@@ -74,7 +91,7 @@ export function ProjectsManager() {
       }
     } else {
       // Create new project
-      const created = await apiClient.post<ProjectData>('/projects', projectData)
+      const created = await apiClient.post<ProjectData>('/projects', cleanPayload)
 
       // Add gallery images to newly created project
       if (created?.id && galleryItems.length > 0) {

@@ -26,6 +26,7 @@ export function CloudinaryUploader({
   mode = 'single',
   folder = 'portfolio',
   currentUrl,
+  currentPublicId,
   galleryItems = [],
   onSingleSuccess,
   onGallerySuccess,
@@ -37,6 +38,29 @@ export function CloudinaryUploader({
   const [isDragging, setIsDragging] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const handleRemoveSingle = async () => {
+    if (currentPublicId) {
+      try {
+        await apiClient.delete(`/media?publicId=${encodeURIComponent(currentPublicId)}`)
+      } catch (err) {
+        console.warn('Gagal menghapus aset media dari Cloudinary:', err)
+      }
+    }
+    onRemoveSingle?.()
+  }
+
+  const handleRemoveGallery = async (index: number) => {
+    const item = galleryItems[index]
+    if (item?.publicId) {
+      try {
+        await apiClient.delete(`/media?publicId=${encodeURIComponent(item.publicId)}`)
+      } catch (err) {
+        console.warn('Gagal menghapus item galeri dari Cloudinary:', err)
+      }
+    }
+    onRemoveGalleryItem?.(index)
+  }
 
   const handleDragOver = (e: DragEvent) => {
     e.preventDefault()
@@ -145,7 +169,7 @@ export function CloudinaryUploader({
           </div>
           <button
             type="button"
-            onClick={onRemoveSingle}
+            onClick={handleRemoveSingle}
             className="p-2 bg-red-500 hover:bg-black text-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all cursor-pointer"
             title="Hapus Media"
           >
@@ -221,7 +245,7 @@ export function CloudinaryUploader({
                 </span>
                 <button
                   type="button"
-                  onClick={() => onRemoveGalleryItem && onRemoveGalleryItem(idx)}
+                  onClick={() => handleRemoveGallery(idx)}
                   className="absolute top-1 right-1 p-1 bg-red-600 text-white border border-black shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] hover:bg-black transition-all cursor-pointer"
                   title="Hapus dari galeri"
                 >

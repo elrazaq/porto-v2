@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ProtectedRoute } from './components/ProtectedRoute'
+import { HackerBootLoader } from './components/HackerBootLoader'
 import { AuthProvider } from './contexts/AuthContext'
 import { DashboardPage } from './pages/admin/DashboardPage'
 import { LoginPage } from './pages/admin/LoginPage'
@@ -10,6 +11,7 @@ import { ProjectDetailPage } from './pages/ProjectDetailPage'
 export default function App() {
   return (
     <AuthProvider>
+      <HackerBootLoader />
       <BrowserRouter>
         <Routes>
           {/* Public One-Page Portfolio */}

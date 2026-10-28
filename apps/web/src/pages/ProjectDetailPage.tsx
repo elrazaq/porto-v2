@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, type ReactNode } from 'react'
 import { ArrowLeft, Code, ExternalLink, Sparkles, X, ZoomIn, Loader2 } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import { CustomCursor } from '../components/CustomCursor'
@@ -29,6 +29,122 @@ interface ProjectDetailData {
   isFeatured?: boolean
   isPublished?: boolean
   images?: ProjectImageItem[]
+}
+
+
+function BrutalistMarkdown({ content }: { content: string }) {
+  const renderInline = (text: string) => {
+    const parts: (string | ReactNode)[] = []
+    const regex = /(\$\$.*?\$\$|\*\*.*?\*\*|`.*?`)/g
+    let lastIndex = 0
+    let match: RegExpExecArray | null
+
+    while ((match = regex.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push(text.substring(lastIndex, match.index))
+      }
+      const token = match[0]
+      if (token.startsWith('**') && token.endsWith('**')) {
+        parts.push(
+          <strong key={match.index} className="font-black text-black">
+            {token.slice(2, -2)}
+          </strong>
+        )
+      } else if (token.startsWith('`') && token.endsWith('`')) {
+        parts.push(
+          <code
+            key={match.index}
+            className="px-1.5 py-0.5 mx-0.5 bg-[#F1FAEE] border border-black/40 font-mono text-[11px] sm:text-xs font-bold text-black"
+          >
+            {token.slice(1, -1)}
+          </code>
+        )
+      }
+      lastIndex = regex.lastIndex
+    }
+
+    if (lastIndex < text.length) {
+      parts.push(text.substring(lastIndex))
+    }
+
+    return parts.length > 0 ? parts : text
+  }
+
+  const lines = content.split('\n')
+  const blocks: ReactNode[] = []
+  let currentList: string[] = []
+
+  const flushList = (key: string | number) => {
+    if (currentList.length > 0) {
+      blocks.push(
+        <ul key={`list-${key}`} className="my-3 space-y-2 border-l-2 border-black pl-3.5 ml-1">
+          {currentList.map((item, idx) => (
+            <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm font-mono text-black/90">
+              <span className="w-2 h-2 bg-[#CCFF00] border border-black shrink-0 mt-1" />
+              <span className="leading-relaxed">{renderInline(item)}</span>
+            </li>
+          ))}
+        </ul>
+      )
+      currentList = []
+    }
+  }
+
+  lines.forEach((rawLine, idx) => {
+    const line = rawLine.trim()
+
+    if (!line) {
+      flushList(idx)
+      return
+    }
+
+    if (line.startsWith('### ')) {
+      flushList(idx)
+      blocks.push(
+        <h3
+          key={`h3-${idx}`}
+          className="font-mono text-xs sm:text-sm font-black uppercase text-black tracking-wider mt-5 mb-2 flex items-center gap-2"
+        >
+          <span className="w-1.5 h-1.5 bg-[#E63946] border border-black inline-block" />
+          <span>{renderInline(line.replace(/^###\s+/, ''))}</span>
+        </h3>
+      )
+    } else if (line.startsWith('## ')) {
+      flushList(idx)
+      blocks.push(
+        <h2
+          key={`h2-${idx}`}
+          className="font-mono text-sm sm:text-base font-black uppercase text-black tracking-wider border-b-2 border-black pb-2 mt-6 mb-3 flex items-center gap-2"
+        >
+          <span className="w-2.5 h-2.5 bg-[#CCFF00] border border-black inline-block" />
+          <span>{renderInline(line.replace(/^##\s+/, ''))}</span>
+        </h2>
+      )
+    } else if (line.startsWith('# ')) {
+      flushList(idx)
+      blocks.push(
+        <h1
+          key={`h1-${idx}`}
+          className="font-mono text-base sm:text-lg font-black uppercase text-black tracking-wide border-b-2 border-black pb-2 mt-6 mb-4"
+        >
+          {renderInline(line.replace(/^#\s+/, ''))}
+        </h1>
+      )
+    } else if (line.startsWith('- ') || line.startsWith('* ')) {
+      currentList.push(line.replace(/^[-*]\s+/, ''))
+    } else {
+      flushList(idx)
+      blocks.push(
+        <p key={`p-${idx}`} className="text-xs sm:text-sm font-sans text-black/90 leading-relaxed font-normal mb-3">
+          {renderInline(line)}
+        </p>
+      )
+    }
+  })
+
+  flushList('end')
+
+  return <div className="space-y-1">{blocks}</div>
 }
 
 export function ProjectDetailPage() {
@@ -95,19 +211,19 @@ export function ProjectDetailPage() {
       <NavbarDock />
 
       <main className="pt-28 pb-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-left">
-        {/* Navigation Breadcrumb */}
-        <div className="mb-6 flex items-center justify-between">
+        {/* Navigation Breadcrumb - Single Brutalist Modern Back Button */}
+        <div className="mb-8 flex items-center justify-between">
           <Link
             to="/#projects"
-            className="inline-flex items-center gap-2 font-mono text-xs font-black uppercase text-black hover:bg-[#CCFF00] px-3 py-1.5 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
+            className="inline-flex items-center gap-2.5 font-mono text-xs font-black uppercase text-black bg-white hover:bg-[#CCFF00] px-4 py-2.5 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all cursor-pointer group"
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>KEMBALI KE SHOWCASE</span>
+            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+            <span>KEMBALI KE PORTOFOLIO</span>
           </Link>
 
           {project && (
-            <span className="font-mono text-xs font-black uppercase text-black/60 hidden sm:inline-block">
-              SLUG: // {project.slug}
+            <span className="font-mono text-xs font-black uppercase text-black/70 hidden sm:inline-block border border-black/30 bg-white px-3 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+              PROYEK_ID: // {project.slug}
             </span>
           )}
         </div>
@@ -130,7 +246,7 @@ export function ProjectDetailPage() {
               to="/#projects"
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-black text-[#CCFF00] font-mono text-xs font-black uppercase border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:bg-[#CCFF00] hover:text-black transition-all"
             >
-              Kembali ke Beranda
+              Kembali ke Portofolio
             </Link>
           </div>
         ) : (
@@ -267,8 +383,8 @@ export function ProjectDetailPage() {
                 </h2>
               </div>
 
-              <div className="font-mono text-xs sm:text-sm text-black leading-relaxed whitespace-pre-line space-y-4">
-                {project.description}
+              <div className="text-black">
+                <BrutalistMarkdown content={project.description} />
               </div>
             </section>
           </>

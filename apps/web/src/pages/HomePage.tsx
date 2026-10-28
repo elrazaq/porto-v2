@@ -8,6 +8,7 @@ import {
   FolderGit2,
 } from 'lucide-react'
 import { useState } from 'react'
+import { apiClient } from '../lib/api-client'
 import { Link } from 'react-router-dom'
 import { AmbientBackground } from '../components/AmbientBackground'
 import { CustomCursor } from '../components/CustomCursor'
@@ -82,6 +83,12 @@ const SKILL_TIERS: {
 export function HomePage() {
   const [lang, setLang] = useState<Language>('id')
   const [copiedEmail, setCopiedEmail] = useState(false)
+  const [inquiryName, setInquiryName] = useState('')
+  const [inquiryEmail, setInquiryEmail] = useState('')
+  const [inquiryMessage, setInquiryMessage] = useState('')
+  const [inquirySubmitting, setInquirySubmitting] = useState(false)
+  const [inquirySuccess, setInquirySuccess] = useState(false)
+  const [inquiryError, setInquiryError] = useState<string | null>(null)
 
   const c = contentData[lang]
   const isId = lang === 'id'
@@ -90,6 +97,32 @@ export function HomePage() {
     navigator.clipboard.writeText('elrazaq185@gmail.com')
     setCopiedEmail(true)
     setTimeout(() => setCopiedEmail(false), 2000)
+  }
+
+  const handleInquirySubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setInquirySubmitting(true)
+    setInquiryError(null)
+    setInquirySuccess(false)
+
+    try {
+      await apiClient.post('/inquiries', {
+        name: inquiryName.trim() || 'Pengunjung Portofolio',
+        email: inquiryEmail.trim(),
+        subject: isId ? 'Pesan Langsung dari Website Portofolio' : 'Direct Message from Portfolio Website',
+        message: inquiryMessage.trim() || 'Halo, saya tertarik dengan profil profesional Anda.',
+      })
+      setInquirySuccess(true)
+      setInquiryName('')
+      setInquiryEmail('')
+      setInquiryMessage('')
+    } catch (err) {
+      setInquiryError(
+        err instanceof Error ? err.message : isId ? 'Gagal mengirim pesan.' : 'Failed to send message.',
+      )
+    } finally {
+      setInquirySubmitting(false)
+    }
   }
 
   return (
@@ -771,26 +804,56 @@ export function HomePage() {
               <h4 className="text-lg font-black text-[#1D3557] mb-3">
                 {isId ? 'Kirimkan pesan atau kebutuhan proyek:' : 'Stay ahead with Me!'}
               </h4>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault()
-                  window.location.href = 'mailto:elrazaq185@gmail.com'
-                }}
-                className="flex items-center gap-2"
-              >
-                <input
-                  type="email"
-                  required
-                  placeholder={c.contact.formEmail}
-                  className="flex-1 px-4 py-3 rounded-none border-2 border-black bg-white font-mono text-xs sm:text-sm text-black placeholder:text-black/40 focus:bg-[#CCFF00]/10 focus:outline-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                />
-                <button
-                  type="submit"
-                  className="px-6 py-3 rounded-none border-2 border-black bg-black text-[#CCFF00] font-mono font-black text-xs uppercase tracking-wider shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:bg-[#CCFF00] hover:text-black hover:shadow-none transition-all cursor-pointer shrink-0"
-                >
-                  {isId ? 'Kirim' : 'Connect'}
-                </button>
-              </form>
+              {inquirySuccess ? (
+                <div className="p-4 border-2 border-black bg-[#CCFF00] text-black font-mono text-xs font-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                  {isId
+                    ? '✓ [PESAN_TERKIRIM]: Terima kasih! Pesan Anda telah berhasil terkirim langsung ke admin inbox.'
+                    : '✓ [MESSAGE_SENT]: Thank you! Your inquiry has been delivered directly to the inbox.'}
+                </div>
+              ) : (
+                <form onSubmit={handleInquirySubmit} className="space-y-3">
+                  {inquiryError && (
+                    <div className="p-2 border-2 border-black bg-red-100 text-red-900 font-mono text-xs font-bold">
+                      [ERROR]: {inquiryError}
+                    </div>
+                  )}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <input
+                      type="text"
+                      required
+                      value={inquiryName}
+                      onChange={(e) => setInquiryName(e.target.value)}
+                      placeholder={isId ? 'Nama Lengkap / Instansi *' : 'Your Name / Org *'}
+                      className="w-full px-3 py-2.5 rounded-none border-2 border-black bg-white font-mono text-xs text-black placeholder:text-black/40 focus:bg-[#CCFF00]/10 focus:outline-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                    />
+                    <input
+                      type="email"
+                      required
+                      value={inquiryEmail}
+                      onChange={(e) => setInquiryEmail(e.target.value)}
+                      placeholder={isId ? 'Alamat Email Aktif *' : 'Active Email Address *'}
+                      className="w-full px-3 py-2.5 rounded-none border-2 border-black bg-white font-mono text-xs text-black placeholder:text-black/40 focus:bg-[#CCFF00]/10 focus:outline-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                    />
+                  </div>
+                  <textarea
+                    required
+                    rows={3}
+                    value={inquiryMessage}
+                    onChange={(e) => setInquiryMessage(e.target.value)}
+                    placeholder={isId ? 'Pesan, penawaran proyek, atau topik kolaborasi... *' : 'Message, project scope, or opportunity... *'}
+                    className="w-full px-3 py-2.5 rounded-none border-2 border-black bg-white font-mono text-xs text-black placeholder:text-black/40 focus:bg-[#CCFF00]/10 focus:outline-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  />
+                  <button
+                    type="submit"
+                    disabled={inquirySubmitting}
+                    className="w-full sm:w-auto px-6 py-3 rounded-none border-2 border-black bg-black text-[#CCFF00] font-mono font-black text-xs uppercase tracking-wider shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:bg-[#CCFF00] hover:text-black hover:shadow-none transition-all cursor-pointer disabled:opacity-60"
+                  >
+                    {inquirySubmitting
+                      ? (isId ? 'MENGIRIMKAN...' : 'SENDING...')
+                      : (isId ? 'KIRIM PESAN SEKARANG →' : 'SUBMIT INQUIRY NOW →')}
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </div>

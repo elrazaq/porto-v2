@@ -1,135 +1,325 @@
-import { ArrowLeft, Code, ExternalLink, Sparkles } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { ArrowLeft, Code, ExternalLink, Sparkles, X, ZoomIn, Loader2 } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
-import { Badge } from '../components/Badge'
-import { Button } from '../components/Button'
 import { CustomCursor } from '../components/CustomCursor'
 import { Footer } from '../components/Footer'
 import { GithubIcon } from '../components/icons/GithubIcon'
 import { NavbarDock } from '../components/NavbarDock'
+import { apiClient } from '../lib/api-client'
+import { contentData } from '../data/content'
+
+interface ProjectImageItem {
+  id: string
+  url: string
+  publicId?: string
+  caption?: string
+  sortOrder?: number
+}
+
+interface ProjectDetailData {
+  id: string
+  title: string
+  slug: string
+  summary: string
+  description: string
+  thumbnailUrl: string
+  thumbnailPublicId?: string
+  repoUrl?: string
+  techStack: string[]
+  isFeatured?: boolean
+  isPublished?: boolean
+  images?: ProjectImageItem[]
+}
 
 export function ProjectDetailPage() {
   const { slug } = useParams<{ slug: string }>()
+  const [project, setProject] = useState<ProjectDetailData | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [activeLightboxImg, setActiveLightboxImg] = useState<{ url: string; caption?: string } | null>(null)
 
-  // Mock details for M1 verification
-  const project = {
-    title: 'Enterprise Multi-Vendor Platform',
-    slug: slug || 'enterprise-ecommerce',
-    summary:
-      'Arsitektur platform e-commerce terdistribusi dengan proteksi RBAC database, refresh session rotation, dan katalog media Cloudinary.',
-    description: `### Arsitektur & Rekayasa Solusi
-Aplikasi dirancang menggunakan arsitektur monorepo modern untuk memisahkan beban komputasi backend NestJS dengan pengalaman rendering cepat di frontend React 19.
+  useEffect(() => {
+    let isMounted = true
+    setIsLoading(true)
+    setError(null)
 
-### Poin Rekayasa Utama
-- **Autentikasi Dual-Token**: Access token (15 menit) dan refresh token (7 hari) tersimpan dalam cookie httpOnly dengan deteksi replay family token.
-- **Role-Based Access Control**: Evaluasi izin secara langsung di level guard NestJS dengan tabel relasional PostgreSQL.
-- **Katalog Media Cloudinary**: Transformasi gambar otomatis WebP dengan optimasi lebar layar responsif.
-- **High-Performance Database**: Terhubung ke Neon Serverless PostgreSQL dengan adapter connection pooling.`,
-    repoUrl: 'https://github.com/elrazaq',
-    techStack: ['React 19', 'TypeScript', 'NestJS', 'PostgreSQL', 'Prisma', 'Cloudinary', 'Tailwind CSS'],
-    images: [
-      { id: '1', caption: 'Arsitektur Sistem & Dashboard Analitik' },
-      { id: '2', caption: 'Katalog Produk Multi-Vendor' },
-      { id: '3', caption: 'Manajemen Hak Akses & RBAC Security' },
-    ],
-  }
+    async function loadProject() {
+      try {
+        if (!slug) throw new Error('Parameter slug proyek tidak valid.')
+        const data = await apiClient.get<ProjectDetailData>(`/projects/${slug}`)
+        if (isMounted) {
+          setProject(data)
+        }
+      } catch (err) {
+        // Fallback gracefully to curated local static dictionary if API fails or offline
+        const localFound = contentData.id.projects.items.find((p) => p.slug === slug)
+        if (localFound && isMounted) {
+          setProject({
+            id: localFound.id,
+            title: localFound.title,
+            slug: localFound.slug,
+            summary: localFound.summary,
+            description: `## Analisis Arsitektur & Rekayasa Solusi\n\n${localFound.summary}\n\n### Dampak & Hasil Produksi:\n${localFound.impact}\n\n### Fokus Rekayasa Utama:\n- Standardisasi arsitektur performa tinggi dan interoperabilitas sistem.\n- Pipeline pengolahan data terdistribusi dengan keandalan maksimal.\n- Pemodelan basis data relasional bersih dengan proteksi transaksi.`,
+            thumbnailUrl: '/profile.jpg',
+            repoUrl: localFound.repoUrl,
+            techStack: localFound.techStack,
+            isFeatured: localFound.isFeatured,
+            images: [],
+          })
+        } else if (isMounted) {
+          setError(err instanceof Error ? err.message : 'Gagal memuat detail proyek.')
+        }
+      } finally {
+        if (isMounted) setIsLoading(false)
+      }
+    }
+
+    loadProject()
+    return () => {
+      isMounted = false
+    }
+  }, [slug])
+
+  // Close lightbox on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setActiveLightboxImg(null)
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
   return (
-    <div className="min-h-screen bg-[#F1FAEE] text-[#1D3557]">
+    <div className="min-h-screen bg-[#F1FAEE] text-black selection:bg-[#CCFF00] selection:text-black">
       <CustomCursor />
       <NavbarDock />
 
-      <main className="pt-28 pb-20 px-4 sm:px-6 max-w-4xl mx-auto">
-        {/* Breadcrumb / Back Link */}
-        <div className="mb-6">
+      <main className="pt-28 pb-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-left">
+        {/* Navigation Breadcrumb */}
+        <div className="mb-6 flex items-center justify-between">
           <Link
             to="/#projects"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#457B9D] hover:text-[#1D3557] transition-colors"
+            className="inline-flex items-center gap-2 font-mono text-xs font-black uppercase text-black hover:bg-[#CCFF00] px-3 py-1.5 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
           >
-            <ArrowLeft className="h-4 w-4" />
-            <span>Kembali ke Showcase</span>
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>KEMBALI KE SHOWCASE</span>
           </Link>
+
+          {project && (
+            <span className="font-mono text-xs font-black uppercase text-black/60 hidden sm:inline-block">
+              SLUG: // {project.slug}
+            </span>
+          )}
         </div>
 
-        {/* Project Header */}
-        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-[#457B9D]/20 shadow-xs">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div>
-              <span className="text-xs font-mono font-medium text-[#457B9D] uppercase tracking-wider block mb-1">
-                Project Detail & Architecture
-              </span>
-              <h1 className="text-2xl sm:text-4xl font-extrabold text-[#1D3557]">{project.title}</h1>
+        {/* Loading State */}
+        {isLoading ? (
+          <div className="p-16 border-2 border-black bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] text-center my-8">
+            <Loader2 className="w-8 h-8 text-black animate-spin mx-auto mb-3" />
+            <span className="font-mono text-xs font-black uppercase tracking-wider text-black">
+              MEMUAT DATA ARSITEKTUR PROYEK DARI DATABASE...
+            </span>
+          </div>
+        ) : error || !project ? (
+          /* Error State */
+          <div className="p-12 border-2 border-black bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] text-center my-8">
+            <span className="font-mono text-sm font-black text-red-600 block mb-3 uppercase">
+              [ERROR]: {error || 'Proyek tidak ditemukan.'}
+            </span>
+            <Link
+              to="/#projects"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-black text-[#CCFF00] font-mono text-xs font-black uppercase border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:bg-[#CCFF00] hover:text-black transition-all"
+            >
+              Kembali ke Beranda
+            </Link>
+          </div>
+        ) : (
+          /* Main Project Detail Content */
+          <>
+            {/* Top Specification Card - Brutalist Modern */}
+            <div className="bg-white border-2 border-black p-6 sm:p-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mb-8">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b-2 border-black">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="w-2.5 h-2.5 bg-[#CCFF00] border border-black inline-block" />
+                    <span className="font-mono text-xs font-black text-black/70 tracking-widest uppercase">
+                      SYSTEM SPECIFICATION // SHOWCASE_DETAIL
+                    </span>
+                    {project.isFeatured && (
+                      <span className="px-2 py-0.5 bg-[#E63946] text-white font-mono text-[9px] font-black uppercase border border-black shadow-[1px_1px_0px_#000]">
+                        Featured
+                      </span>
+                    )}
+                  </div>
+                  <h1 className="text-3xl sm:text-5xl font-black text-black tracking-tight leading-none uppercase">
+                    {project.title}
+                  </h1>
+                </div>
+
+                {/* GitHub Repository Action (Strict: No Live Preview Button) */}
+                {project.repoUrl && (
+                  <a
+                    href={project.repoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-black text-[#CCFF00] hover:bg-[#CCFF00] hover:text-black font-mono text-xs font-black uppercase tracking-wider border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all cursor-pointer shrink-0"
+                    title="Buka Repositori Kode Sumber di GitHub"
+                  >
+                    <GithubIcon className="w-4 h-4" />
+                    <span>LIHAT REPOSITORI GITHUB</span>
+                    <ExternalLink className="w-3.5 h-3.5 opacity-80" />
+                  </a>
+                )}
+              </div>
+
+              {/* Summary Statement */}
+              <p className="font-sans text-base sm:text-lg text-black font-medium leading-relaxed mt-6 max-w-3xl">
+                {project.summary}
+              </p>
+
+              {/* Tech Stack Pills */}
+              <div className="mt-6 pt-6 border-t-2 border-black/10 flex flex-wrap gap-2">
+                {project.techStack.map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-3 py-1 bg-white text-black border-2 border-black font-mono text-xs font-black uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
             </div>
 
-            {/* Official GitHub Action Link Only (No Live Preview) */}
-            {project.repoUrl && (
-              <a href={project.repoUrl} target="_blank" rel="noopener noreferrer">
-                <Button variant="primary" size="md" className="rounded-xl">
-                  <GithubIcon className="h-4 w-4" />
-                  <span>Lihat di GitHub</span>
-                  <ExternalLink className="h-3.5 w-3.5 opacity-80" />
-                </Button>
-              </a>
+            {/* High-Resolution Cloudinary Gallery Section */}
+            {(project.thumbnailUrl || (project.images && project.images.length > 0)) && (
+              <section className="mb-10">
+                <div className="flex items-center gap-2 mb-4">
+                  <Sparkles className="w-4 h-4 text-black" />
+                  <h2 className="font-mono text-sm font-black uppercase tracking-wider text-black">
+                    GALERI TAMPILAN SISTEM & ANTARMUKA ({1 + (project.images?.length || 0)} ASET)
+                  </h2>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Main Feature Thumbnail */}
+                  {project.thumbnailUrl && (
+                    <div
+                      onClick={() =>
+                        setActiveLightboxImg({
+                          url: project.thumbnailUrl,
+                          caption: `${project.title} — Arsitektur & Tampilan Utama`,
+                        })
+                      }
+                      className="md:col-span-2 group relative border-2 border-black bg-white p-2 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5 transition-all cursor-pointer overflow-hidden"
+                    >
+                      <div className="relative aspect-[16/9] w-full overflow-hidden bg-black/5">
+                        <img
+                          src={project.thumbnailUrl}
+                          alt={project.title}
+                          className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-300"
+                          loading="lazy"
+                        />
+                        <div className="absolute bottom-3 right-3 px-3 py-1.5 bg-black text-[#CCFF00] font-mono text-[10px] font-black uppercase border border-black flex items-center gap-1.5 shadow-[2px_2px_0px_#000]">
+                          <ZoomIn className="w-3.5 h-3.5" />
+                          <span>KLIK UNTUK MEMPERBESAR</span>
+                        </div>
+                      </div>
+                      <div className="p-3 bg-white font-mono text-xs font-bold text-black border-t-2 border-black flex items-center justify-between">
+                        <span>[MAIN_VIEWPORT]: Tampilan Sistem Utama</span>
+                        <span className="text-black/60 uppercase text-[10px]">CLOUDINARY_HOSTED</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Multi Gallery Images */}
+                  {project.images?.map((img, idx) => (
+                    <div
+                      key={img.id || img.url + idx}
+                      onClick={() => setActiveLightboxImg({ url: img.url, caption: img.caption })}
+                      className="group relative border-2 border-black bg-white p-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5 transition-all cursor-pointer overflow-hidden"
+                    >
+                      <div className="relative aspect-[16/10] w-full overflow-hidden bg-black/5">
+                        <img
+                          src={img.url}
+                          alt={img.caption || `Gallery ${idx + 1}`}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          loading="lazy"
+                        />
+                        <div className="absolute bottom-2 right-2 p-1 bg-black text-[#CCFF00] border border-black shadow-[1px_1px_0px_#000]">
+                          <ZoomIn className="w-3 h-3" />
+                        </div>
+                      </div>
+                      <div className="p-2.5 bg-white font-mono text-xs font-bold text-black border-t border-black truncate">
+                        {img.caption || `Foto Galeri #${idx + 1}`}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* Deep Technical Architectural Markdown Section */}
+            <section className="bg-white border-2 border-black p-6 sm:p-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mb-12">
+              <div className="flex items-center gap-2 pb-4 border-b-2 border-black mb-6">
+                <Code className="w-4 h-4 text-black" />
+                <h2 className="font-mono text-sm font-black uppercase tracking-wider text-black">
+                  ULASAN ARSITEKTUR TEKNIS & REKAYASA SISTEM
+                </h2>
+              </div>
+
+              <div className="font-mono text-xs sm:text-sm text-black leading-relaxed whitespace-pre-line space-y-4">
+                {project.description}
+              </div>
+            </section>
+          </>
+        )}
+      </main>
+
+      {/* Fullscreen Brutalist Lightbox Modal */}
+      {activeLightboxImg && (
+        <div
+          onClick={() => setActiveLightboxImg(null)}
+          className="fixed inset-0 z-[9999999] bg-black/90 backdrop-blur-xs flex flex-col items-center justify-center p-4 sm:p-8 animate-in fade-in duration-200"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative max-w-5xl w-full bg-white border-2 border-black p-3 sm:p-4 shadow-[12px_12px_0px_0px_#CCFF00]"
+          >
+            {/* Modal Header */}
+            <div className="flex items-center justify-between pb-2 mb-2 border-b-2 border-black">
+              <span className="font-mono text-xs font-black uppercase text-black truncate max-w-lg">
+                {activeLightboxImg.caption || 'PREVIEW_FOTO_RESOLUSI_TINGGI'}
+              </span>
+              <button
+                type="button"
+                onClick={() => setActiveLightboxImg(null)}
+                className="p-1.5 bg-[#E63946] text-white hover:bg-black font-mono text-xs font-bold border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] cursor-pointer"
+                title="Tutup (ESC)"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Full Image */}
+            <div className="max-h-[75vh] overflow-hidden flex items-center justify-center bg-black/5 border border-black">
+              <img
+                src={activeLightboxImg.url}
+                alt={activeLightboxImg.caption || 'Lightbox Preview'}
+                className="max-h-[75vh] w-auto object-contain"
+              />
+            </div>
+
+            {/* Modal Footer Caption */}
+            {activeLightboxImg.caption && (
+              <div className="pt-2 text-center font-mono text-xs font-bold text-black/80">
+                {activeLightboxImg.caption}
+              </div>
             )}
           </div>
-
-          <p className="text-sm sm:text-base text-[#457B9D] mt-3 max-w-2xl leading-relaxed">
-            {project.summary}
-          </p>
-
-          <div className="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-black/5">
-            {project.techStack.map((tech) => (
-              <Badge key={tech}>{tech}</Badge>
-            ))}
-          </div>
         </div>
-
-        {/* High-Resolution Image Gallery (Cloudinary Showcase) */}
-        <section className="mt-8">
-          <div className="flex items-center gap-2 mb-4">
-            <Sparkles className="h-4 w-4 text-[#E63946]" />
-            <h2 className="text-lg font-bold text-[#1D3557]">Galeri Tampilan & Antarmuka</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {project.images.map((img, idx) => (
-              <div
-                key={img.id}
-                className={`rounded-2xl bg-white border border-[#457B9D]/20 overflow-hidden shadow-xs ${
-                  idx === 0 ? 'md:col-span-2' : ''
-                }`}
-              >
-                <div
-                  className={`bg-[#1D3557]/5 flex items-center justify-center p-8 border-b border-black/5 ${
-                    idx === 0 ? 'h-64 sm:h-80' : 'h-48'
-                  }`}
-                >
-                  <div className="text-center">
-                    <span className="text-xs font-mono text-[#457B9D] uppercase tracking-wider block">
-                      Cloudinary Image Asset
-                    </span>
-                    <span className="text-sm font-semibold text-[#1D3557] mt-1 block">{img.caption}</span>
-                  </div>
-                </div>
-                <div className="p-3 bg-white text-xs font-mono text-[#457B9D] text-center">
-                  {img.caption}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Detailed Technical Markdown Description */}
-        <section className="mt-8 bg-white p-6 sm:p-8 rounded-3xl border border-[#457B9D]/20 shadow-xs">
-          <div className="flex items-center gap-2 mb-4">
-            <Code className="h-4 w-4 text-[#E63946]" />
-            <h2 className="text-lg font-bold text-[#1D3557]">Ulasan Arsitektur & Rekayasa</h2>
-          </div>
-
-          <div className="prose prose-slate max-w-none text-sm sm:text-base text-[#1D3557]/80 leading-relaxed whitespace-pre-line">
-            {project.description}
-          </div>
-        </section>
-      </main>
+      )}
 
       <Footer />
     </div>

@@ -7,7 +7,7 @@ import {
   Copy,
   FolderGit2,
 } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { apiClient } from '../lib/api-client'
 import { Link } from 'react-router-dom'
 import { AmbientBackground } from '../components/AmbientBackground'
@@ -89,6 +89,29 @@ export function HomePage() {
   const [inquirySubmitting, setInquirySubmitting] = useState(false)
   const [inquirySuccess, setInquirySuccess] = useState(false)
   const [inquiryError, setInquiryError] = useState<string | null>(null)
+  const [liveThumbnails, setLiveThumbnails] = useState<Record<string, string>>({})
+
+  useEffect(() => {
+    let isMounted = true
+    apiClient
+      .get<Array<{ slug: string; thumbnailUrl: string }>>('/projects')
+      .then((data) => {
+        if (!isMounted || !Array.isArray(data)) return
+        const map: Record<string, string> = {}
+        for (const p of data) {
+          if (p.slug && p.thumbnailUrl) {
+            map[p.slug] = p.thumbnailUrl
+          }
+        }
+        setLiveThumbnails(map)
+      })
+      .catch(() => {
+        // Fallback to static contentData gracefully
+      })
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   const c = contentData[lang]
   const isId = lang === 'id'
@@ -445,29 +468,48 @@ export function HomePage() {
 
           {/* 3-Column Brutalist Showcase Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {c.projects.items.map((proj) => (
+            {c.projects.items.map((proj) => {
+              const actualThumbnail = liveThumbnails[proj.slug] || proj.thumbnailUrl
+              return (
               <div
                 key={proj.id}
                 className="group relative flex flex-col text-left transition-all duration-300 p-4 bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1"
               >
                 {/* Visual Image Banner with Hover Slide-Up Reveal */}
                 <div className="relative aspect-[16/11] rounded-none overflow-hidden bg-[#121B24] border-2 border-black select-none">
-                  {/* Base Graphic / Mockup Presentation */}
-                  <div className="w-full h-full bg-gradient-to-br from-[#1D3557] via-[#121B24] to-[#0A1118] p-6 flex flex-col items-center justify-center text-center text-white relative">
-                    <span className="text-[10px] font-mono font-bold tracking-widest text-[#CCFF00] uppercase mb-2">
+                  {/* Thumbnail Image or Fallback Graphic (Auto-Grayscale) */}
+                  {actualThumbnail ? (
+                    <img
+                      src={actualThumbnail}
+                      alt={proj.title}
+                      className="w-full h-full object-cover filter grayscale contrast-125 brightness-95 group-hover:contrast-135 group-hover:scale-105 transition-all duration-300"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-[#1D3557] via-[#121B24] to-[#0A1118] p-6 flex flex-col items-center justify-center text-center text-white">
+                      <span className="text-[10px] font-mono font-bold tracking-widest text-[#CCFF00] uppercase mb-2">
+                        {proj.category}
+                      </span>
+                      <span className="font-extrabold text-xl sm:text-2xl text-white leading-tight max-w-[260px]">
+                        {proj.title}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Corner Badge Tags */}
+                  <div className="absolute top-3 left-3 z-10 pointer-events-none">
+                    <span className="px-2 py-0.5 rounded-none border border-black bg-black/85 backdrop-blur-xs text-[#CCFF00] font-mono text-[9px] font-black uppercase tracking-wider shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                       {proj.category}
                     </span>
-                    <span className="font-extrabold text-xl sm:text-2xl text-white leading-tight max-w-[260px]">
-                      {proj.title}
-                    </span>
-                    {proj.isFeatured && (
-                      <div className="absolute top-3.5 right-3.5">
-                        <span className="px-2 py-0.5 rounded-none border border-black bg-[#E63946] text-white font-mono text-[9px] font-black uppercase tracking-wider shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                          Featured
-                        </span>
-                      </div>
-                    )}
                   </div>
+
+                  {proj.isFeatured && (
+                    <div className="absolute top-3 right-3 z-10 pointer-events-none">
+                      <span className="px-2 py-0.5 rounded-none border border-black bg-[#E63946] text-white font-mono text-[9px] font-black uppercase tracking-wider shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                        Featured
+                      </span>
+                    </div>
+                  )}
 
                   {/* Modern Hover Slide-up Overlay (Revealing Impact & Links) */}
                   <div className="absolute inset-0 bg-[#0A1118]/95 backdrop-blur-md p-6 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-3 group-hover:translate-y-0 text-white rounded-none">
@@ -521,7 +563,8 @@ export function HomePage() {
                   </span>
                 </div>
               </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>

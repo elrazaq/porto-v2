@@ -27,19 +27,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     async function initSession() {
       try {
         const profile = await apiClient.get<User>('/auth/me')
-        if (isMounted && profile && profile.id) {
-          setUser(profile)
-          localStorage.setItem('admin_user', JSON.stringify(profile))
-          return
+        if (isMounted) {
+          setUser(profile && profile.id ? profile : null)
         }
       } catch {
-        const saved = localStorage.getItem('admin_user')
-        if (saved && isMounted) {
-          try {
-            setUser(JSON.parse(saved))
-            return
-          } catch {}
-        }
         if (isMounted) {
           setUser(null)
         }
@@ -59,29 +50,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(
     async (email: string, password: string) => {
-      try {
-        const data = await apiClient.post<{ user: User }>('/auth/login', { email, password })
-        if (data?.user) {
-          setUser(data.user)
-          localStorage.setItem('admin_user', JSON.stringify(data.user))
-          return
-        }
-      } catch (err) {
-        // Fail-safe fallback when backend server is offline on static deployment
-        if (email.trim().toLowerCase() === 'elrazaq185@gmail.com' && password.length >= 6) {
-          const fallbackAdmin: User = {
-            id: 'admin-master',
-            email: 'elrazaq185@gmail.com',
-            name: 'Abdul Razak, S.T.',
-            roles: ['ADMINISTRATOR'],
-          }
-          setUser(fallbackAdmin)
-          localStorage.setItem('admin_user', JSON.stringify(fallbackAdmin))
-          return
-        }
-        throw err
+      const data = await apiClient.post<{ user: User }>('/auth/login', { email, password })
+      if (data?.user) {
+        setUser(data.user)
+      } else {
+        await checkSession()
       }
-      await checkSession()
     },
     [checkSession],
   )
@@ -89,8 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = useCallback(async () => {
     try {
       await apiClient.post('/auth/logout')
-    } catch {} finally {
-      localStorage.removeItem('admin_user')
+    } finally {
       setUser(null)
     }
   }, [])
